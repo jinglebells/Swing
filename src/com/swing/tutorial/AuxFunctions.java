@@ -4,10 +4,15 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import javax.swing.JOptionPane;
-import org.apache.logging.log4j.Logger;
+import javax.swing.table.DefaultTableModel;
+
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.opencsv.CSVReader;
 
 import lombok.NonNull;
@@ -93,6 +98,7 @@ public class AuxFunctions {
 			UploadFrame.btnClear.setEnabled(true);
 			UploadFrame.btnSaveInDb.setEnabled(false);
 			UploadFrame.btnUpload.setEnabled(false);
+			UploadFrame.btnShowAllEmployees.setEnabled(true);
 		}
 		else if (process.equalsIgnoreCase("process")) {
 			log.debug("Changing Buttons status - Process button pressed");
@@ -100,6 +106,7 @@ public class AuxFunctions {
 			UploadFrame.btnClear.setEnabled(true);
 			UploadFrame.btnSaveInDb.setEnabled(true);
 			UploadFrame.btnProcess.setEnabled(false);
+			UploadFrame.btnShowAllEmployees.setEnabled(true);
 		}
 		else if (process.equalsIgnoreCase("clear")) {
 			log.debug("Changing Buttons status - Clear button pressed");
@@ -107,6 +114,7 @@ public class AuxFunctions {
 			UploadFrame.btnProcess.setEnabled(false);
 			UploadFrame.btnSaveInDb.setEnabled(false);
 			UploadFrame.btnClear.setEnabled(false);
+			UploadFrame.btnShowAllEmployees.setEnabled(true);
 		}
 		else if (process.equalsIgnoreCase("save")) {
 			log.debug("Changing Buttons status - Save button pressed");
@@ -114,6 +122,39 @@ public class AuxFunctions {
 			UploadFrame.btnProcess.setEnabled(false);
 			UploadFrame.btnClear.setEnabled(false);
 			UploadFrame.btnSaveInDb.setEnabled(false);
+			UploadFrame.btnShowAllEmployees.setEnabled(true);
 		}
+		else if (process.equalsIgnoreCase("showall")) {
+			log.debug("Changing Buttons status - Show All Info button pressed");
+			UploadFrame.btnUpload.setEnabled(true);
+			UploadFrame.btnProcess.setEnabled(false);
+			UploadFrame.btnClear.setEnabled(true);
+			UploadFrame.btnSaveInDb.setEnabled(false);
+			UploadFrame.btnShowAllEmployees.setEnabled(true);
+		}
+	}
+
+	public void showAllInfo() throws SQLException{
+		dbConnector = dbConnection.connectionDB();
+		ResultSet data;
+		data = dbFunction.showDbInfo(dbConnector);
+		DefaultTableModel aModel = (DefaultTableModel) UploadFrame.table.getModel();
+		aModel.addColumn("ID");
+		aModel.addColumn("Name");
+		aModel.addColumn("Surname");
+		aModel.addColumn("Age");
+		aModel.addColumn("Position");
+		aModel.addColumn("Salary");
+		// Loop through the ResultSet and transfer in the Model
+		java.sql.ResultSetMetaData rsmd = data.getMetaData();
+		int colNo = rsmd.getColumnCount();
+		while(data.next()){
+		 Object[] objects = new Object[colNo];
+		 for(int i=0;i<colNo;i++){
+		  objects[i]=data.getObject(i+1);
+		  }
+		 aModel.addRow(objects);
+		}
+		UploadFrame.table.setModel(aModel);
 	}
 }

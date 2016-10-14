@@ -4,12 +4,13 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import javax.swing.JOptionPane;
+
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import lombok.NonNull;
-
-import org.apache.logging.log4j.LogManager;
 
 public class DatabaseFunctions {
 
@@ -71,6 +72,20 @@ public class DatabaseFunctions {
 		}
 	}
 
+	public ResultSet showDbInfo(@NonNull Connection c) {
+		ResultSet rs = null;
+		try {
+			log.debug("Getting all employees from DB.");
+			stmt = c.createStatement();
+			rs = stmt.executeQuery("SELECT id, name, surname, age, position, salary FROM data.info");
+		} catch (SQLException e) {
+			log.fatal("SQL Exception while retrieving all information from DB.");
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,"Error occurred when getting information from DB.");
+		}
+		return rs;
+	}
+	
 	private int getIdInsert(@NonNull Connection c) {
 		try {
 			log.debug("Getting the id to insert.");

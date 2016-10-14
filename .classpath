@@ -16,5 +16,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="JARS Lib/rs2xml.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
