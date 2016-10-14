@@ -4,17 +4,16 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import javax.swing.JOptionPane;
-
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class DatabaseFunctions {
 
 	Statement stmt,stmt2;
 	int id = 0;
 	
-	Logger log = Logger.getLogger(DatabaseFunctions.class.getName());
+	 private static final Logger log = LogManager.getLogger(DatabaseFunctions.class);
 
 	public void insertDB(Connection c, String[] information) throws SQLException {
 		try {

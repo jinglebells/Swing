@@ -6,8 +6,6 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.FileReader;
-import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,17 +15,21 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class UploadFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
+	 private static final Logger log = LogManager.getLogger(UploadFrame.class);
+	
 	JPanel contentPane;
 	JTextField pathField;
 	static JTextArea textArea;
@@ -68,6 +70,7 @@ public class UploadFrame extends JFrame {
 	public UploadFrame() {
 
 		//Content
+		log.debug("Adding Content to GUI...");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -79,27 +82,32 @@ public class UploadFrame extends JFrame {
 
 		//Buttons
 		//Upload Button
+		log.debug("Adding Upload Button to GUI...");
 		btnUpload = new JButton("Upload");
 		btnUpload.setBounds(5, 5, 84, 23);
 		btnUpload.setEnabled(true);
 		contentPane.add(btnUpload);
 		//Process Button
+		log.debug("Adding Process Button to GUI...");
 		btnProcess = new JButton("Process");
 		btnProcess.setEnabled(false);
 		btnProcess.setBounds(5, 39, 84, 23);
 		contentPane.add(btnProcess);
 		//Clear Button
+		log.debug("Adding Clear Button to GUI...");
 		btnClear = new JButton("Clear");
 		btnClear.setBounds(94, 39, 89, 23);
 		btnClear.setEnabled(false);
 		contentPane.add(btnClear);
 		//Save in DB Button
+		log.debug("Adding Save in DB Button to GUI...");
 		btnSaveInDb = new JButton("Commit Actions in DB");
 		btnSaveInDb.setBounds(5, 225, 165, 23);
 		btnSaveInDb.setEnabled(false);
 		contentPane.add(btnSaveInDb);
 
 		//TextField - Path
+		log.debug("Adding Path Field to GUI...");
 		pathField = new JTextField();
 		pathField.setBounds(94, 6, 200, 20);
 		pathField.setEditable(false);
@@ -107,6 +115,7 @@ public class UploadFrame extends JFrame {
 		contentPane.add(pathField);
 
 		//JTextArea
+		log.debug("Adding Text Area to GUI...");
 		textArea = new JTextArea();
 		textArea.setLineWrap(true);
 		JScrollPane scroll = new JScrollPane (textArea, 
@@ -116,11 +125,13 @@ public class UploadFrame extends JFrame {
 
 		//Labels
 		//YourContents
+		log.debug("Adding Label to GUI...");
 		lblYourFileContents = new JLabel("Your File Contents");
 		lblYourFileContents.setBounds(5, 85, 89, 14);
 		contentPane.add(lblYourFileContents);
 
 		//MenuBar
+		log.debug("Adding Menu Bar to GUI...");
 		JMenuBar menubar = new JMenuBar();
 		ImageIcon icon = new ImageIcon("resources\\exit.png");
 		//resize do icone

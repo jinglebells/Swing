@@ -5,16 +5,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-
 import javax.swing.JOptionPane;
-
-import org.apache.log4j.Logger;
-
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import com.opencsv.CSVReader;
 
 public class AuxFunctions {
 
-	Logger log = Logger.getLogger(AuxFunctions.class.getName());
+	 private static final Logger log = LogManager.getLogger(AuxFunctions.class);
 	
 	DatabaseConnection dbConnection = new DatabaseConnection();
 	DatabaseFunctions dbFunction = new DatabaseFunctions();
@@ -45,6 +43,10 @@ public class AuxFunctions {
 					log.fatal("SQL Exception while performing DB Actions.");
 					JOptionPane.showMessageDialog(null,"Problem found during Database actions.");
 					e.printStackTrace();
+				} finally {
+					if (reader != null) {
+						reader.close();
+					}
 				}
 			}
 		} catch (FileNotFoundException e1) {

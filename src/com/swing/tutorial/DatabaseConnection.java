@@ -2,12 +2,13 @@ package com.swing.tutorial;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import org.apache.log4j.Logger;
 
 public class DatabaseConnection {
 
-	Logger log = Logger.getLogger(DatabaseConnection.class.getName());
+	 private static final Logger log = LogManager.getLogger(DatabaseConnection.class);
 	
 	public Connection connectionDB() {
 		Connection c = null;
@@ -18,8 +19,8 @@ public class DatabaseConnection {
 							"postgres", "kamme61199A");
 			c.setAutoCommit(false);
 		} catch (Exception e) {
+			log.fatal("Error Trying to connect to DB.");
 			e.printStackTrace();
-			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
 		}
 		log.info("The connection with the database was established.");
