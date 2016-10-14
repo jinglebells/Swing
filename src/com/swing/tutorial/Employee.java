@@ -1,7 +1,5 @@
 package com.swing.tutorial;
 
-import lombok.Data;
-
 public class Employee {
 	
 	public Employee(Integer id, String name, String surname, String position, Integer salary) {

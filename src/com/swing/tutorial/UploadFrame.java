@@ -2,6 +2,7 @@ package com.swing.tutorial;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,20 +21,22 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import org.apache.logging.log4j.Logger;
+import javax.swing.table.JTableHeader;
+
 import org.apache.logging.log4j.LogManager;
-import javax.swing.JTable;
+import org.apache.logging.log4j.Logger;
 
 public class UploadFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	
-	 private static final Logger log = LogManager.getLogger(UploadFrame.class);
-	
+
+	private static final Logger log = LogManager.getLogger(UploadFrame.class);
+
 	JPanel contentPane;
 	JTextField pathField;
 	static JTextArea textArea;
@@ -49,11 +52,11 @@ public class UploadFrame extends JFrame {
 
 	private char CSV_SEPARATOR = ',';
 	private char CSV_QUOTE = '\"';
-	
+
 	String process;
 
 	AuxFunctions aux = new AuxFunctions();
-	
+
 
 	/**
 	 * Launch the application.
@@ -86,7 +89,7 @@ public class UploadFrame extends JFrame {
 		setBounds(100, 100, 702, 490);
 		ImageIcon webIcon = new ImageIcon("resources\\mtrust.png");
 		setIconImage(webIcon.getImage());
-		
+
 
 		//Buttons
 		//Upload Button
@@ -143,16 +146,18 @@ public class UploadFrame extends JFrame {
 		lblYourFileContents = new JLabel("Your File Contents");
 		lblYourFileContents.setBounds(5, 85, 89, 14);
 		contentPane.add(lblYourFileContents);
-		
+
 		//Table
 		table = new JTable();
-		table.setBounds(5, 303, 661, 116);
-//		JScrollPane js=new JScrollPane(table,
-//				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-//		js.setVisible(true);
-//		contentPane.add(js);
-		contentPane.add(table);
-		
+		JTableHeader header = table.getTableHeader();
+		header.setFont(new Font("Dialog", Font.BOLD, 14));
+		JScrollPane js=new JScrollPane(table,
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		js.setVisible(true);
+		js.setBounds(5, 303, 661, 116);
+		contentPane.add(js);
+		//		contentPane.add(table);
+
 		//MenuBar
 		log.debug("Adding Menu Bar to GUI...");
 		JMenuBar menubar = new JMenuBar();
@@ -219,6 +224,11 @@ public class UploadFrame extends JFrame {
 				aux.enableButtons(process);
 				textArea.setText("");
 				pathField.setText("");
+				for (int i = 0; i < table.getRowCount(); i++){
+					for(int j = 0; j < table.getColumnCount(); j++) {
+						table.setValueAt("", i, j);
+					}
+				}
 			}
 		});
 
@@ -232,13 +242,15 @@ public class UploadFrame extends JFrame {
 				pathField.setText("");
 			}
 		});
-		
+
 		//Button ShowAll Actions
-		
+
 		btnShowAllEmployees.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					aux.showAllInfo();
+					process = "showAll";
+					aux.enableButtons(process);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

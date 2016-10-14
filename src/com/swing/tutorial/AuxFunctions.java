@@ -16,7 +16,6 @@ import org.apache.logging.log4j.Logger;
 import com.opencsv.CSVReader;
 
 import lombok.NonNull;
-import net.proteanit.sql.DbUtils;
 
 public class AuxFunctions {
 
@@ -125,15 +124,21 @@ public class AuxFunctions {
 			UploadFrame.btnSaveInDb.setEnabled(false);
 			UploadFrame.btnShowAllEmployees.setEnabled(true);
 		}
+		else if (process.equalsIgnoreCase("showall")) {
+			log.debug("Changing Buttons status - Show All Info button pressed");
+			UploadFrame.btnUpload.setEnabled(true);
+			UploadFrame.btnProcess.setEnabled(false);
+			UploadFrame.btnClear.setEnabled(true);
+			UploadFrame.btnSaveInDb.setEnabled(false);
+			UploadFrame.btnShowAllEmployees.setEnabled(true);
+		}
 	}
 
 	public void showAllInfo() throws SQLException{
 		dbConnector = dbConnection.connectionDB();
 		ResultSet data;
 		data = dbFunction.showDbInfo(dbConnector);
-		String[] tableColumnsName = {"ID","Name","Surname", "Age", "Position", "Salary"}; 
 		DefaultTableModel aModel = (DefaultTableModel) UploadFrame.table.getModel();
-		//aModel.setColumnIdentifiers(tableColumnsName);
 		aModel.addColumn("ID");
 		aModel.addColumn("Name");
 		aModel.addColumn("Surname");
@@ -143,11 +148,6 @@ public class AuxFunctions {
 		// Loop through the ResultSet and transfer in the Model
 		java.sql.ResultSetMetaData rsmd = data.getMetaData();
 		int colNo = rsmd.getColumnCount();
-		Object[] header = new Object[colNo];
-		for (int i=0; i<tableColumnsName.length; i++) {
-			header[i]=tableColumnsName[i];
-		}
-		aModel.addRow(header);
 		while(data.next()){
 		 Object[] objects = new Object[colNo];
 		 for(int i=0;i<colNo;i++){

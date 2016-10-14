@@ -4,15 +4,13 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.swing.JOptionPane;
+
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import lombok.NonNull;
-
-import org.apache.logging.log4j.LogManager;
 
 public class DatabaseFunctions {
 
