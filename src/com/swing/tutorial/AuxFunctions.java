@@ -43,12 +43,9 @@ public class AuxFunctions {
 					log.fatal("SQL Exception while performing DB Actions.");
 					JOptionPane.showMessageDialog(null,"Problem found during Database actions.");
 					e.printStackTrace();
-				} finally {
-					if (reader != null) {
-						reader.close();
-					}
 				}
 			}
+			reader.close();
 		} catch (FileNotFoundException e1) {
 			log.fatal("File Not Found!");
 			JOptionPane.showMessageDialog(null,"File was not found.");
