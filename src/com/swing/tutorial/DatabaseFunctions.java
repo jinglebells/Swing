@@ -79,7 +79,7 @@ public class DatabaseFunctions {
 		try {
 			log.debug("Getting all employees from DB.");
 			stmt = c.createStatement();
-			rs = stmt.executeQuery("SELECT id FROM data.info;");
+			rs = stmt.executeQuery("SELECT id, name, surname, age, position, salary FROM data.info");
 		} catch (SQLException e) {
 			log.fatal("SQL Exception while retrieving all information from DB.");
 			e.printStackTrace();
