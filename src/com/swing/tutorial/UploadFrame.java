@@ -147,6 +147,10 @@ public class UploadFrame extends JFrame {
 		//Table
 		table = new JTable();
 		table.setBounds(5, 303, 661, 116);
+//		JScrollPane js=new JScrollPane(table,
+//				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+//		js.setVisible(true);
+//		contentPane.add(js);
 		contentPane.add(table);
 		
 		//MenuBar
