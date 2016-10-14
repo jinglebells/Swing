@@ -10,6 +10,8 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import com.opencsv.CSVReader;
 
+import lombok.NonNull;
+
 public class AuxFunctions {
 
 	private static final Logger log = LogManager.getLogger(AuxFunctions.class);
@@ -19,7 +21,7 @@ public class AuxFunctions {
 
 	Connection dbConnector;
 
-	public void parseCSVFile(String path, char separator, char quote) {
+	public void parseCSVFile(@NonNull String path, @NonNull char separator, @NonNull char quote) {
 		try {
 			log.info("Parsing the CSV File in order to proceed with the actions.");
 			CSVReader reader = new CSVReader(new FileReader(path), separator, quote);
@@ -59,7 +61,7 @@ public class AuxFunctions {
 		}
 	}
 
-	public void readFile(String path) throws IOException {
+	public void readFile(@NonNull String path) throws IOException {
 		FileReader reader = null;
 		try {
 			log.info("Processing the file...");
@@ -84,7 +86,7 @@ public class AuxFunctions {
 		}
 	}
 
-	public void enableButtons(String process) {
+	public void enableButtons(@NonNull String process) {
 		if (process.equalsIgnoreCase("upload")) {
 			log.debug("Changing Buttons status - Upload button pressed");
 			UploadFrame.btnProcess.setEnabled(true);

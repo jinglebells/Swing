@@ -6,6 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import org.apache.logging.log4j.Logger;
+
+import lombok.NonNull;
+
 import org.apache.logging.log4j.LogManager;
 
 public class DatabaseFunctions {
@@ -15,7 +18,7 @@ public class DatabaseFunctions {
 	
 	 private static final Logger log = LogManager.getLogger(DatabaseFunctions.class);
 
-	public void insertDB(Connection c, String[] information) throws SQLException {
+	public void insertDB(@NonNull Connection c, @NonNull String[] information) throws SQLException {
 		try {
 			id = getIdInsert(c);
 			log.debug("The new line will be with id="+(id+1));
@@ -40,7 +43,7 @@ public class DatabaseFunctions {
 		}
 	}
 	
-	public void removeDB(Connection c, String[] information) throws SQLException {
+	public void removeDB(@NonNull Connection c, @NonNull String[] information) throws SQLException {
 		try {
 			id = getIdDelete(c, information);
 			log.debug("The employee with id="+id+" will be deleted");
@@ -68,7 +71,7 @@ public class DatabaseFunctions {
 		}
 	}
 
-	private int getIdInsert(Connection c) {
+	private int getIdInsert(@NonNull Connection c) {
 		try {
 			log.debug("Getting the id to insert.");
 			stmt2 = c.createStatement();
@@ -84,7 +87,7 @@ public class DatabaseFunctions {
 		return id;
 	}
 	
-	private int getIdDelete(Connection c, String[] information) {
+	private int getIdDelete(@NonNull Connection c, @NonNull String[] information) {
 		try {
 			log.debug("Getting the id to remove.");
 			stmt2 = c.createStatement();
