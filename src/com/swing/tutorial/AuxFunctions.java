@@ -4,13 +4,19 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import javax.swing.JOptionPane;
-import org.apache.logging.log4j.Logger;
+import javax.swing.table.DefaultTableModel;
+
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.opencsv.CSVReader;
 
 import lombok.NonNull;
+import net.proteanit.sql.DbUtils;
 
 public class AuxFunctions {
 
@@ -93,6 +99,7 @@ public class AuxFunctions {
 			UploadFrame.btnClear.setEnabled(true);
 			UploadFrame.btnSaveInDb.setEnabled(false);
 			UploadFrame.btnUpload.setEnabled(false);
+			UploadFrame.btnShowAllEmployees.setEnabled(true);
 		}
 		else if (process.equalsIgnoreCase("process")) {
 			log.debug("Changing Buttons status - Process button pressed");
@@ -100,6 +107,7 @@ public class AuxFunctions {
 			UploadFrame.btnClear.setEnabled(true);
 			UploadFrame.btnSaveInDb.setEnabled(true);
 			UploadFrame.btnProcess.setEnabled(false);
+			UploadFrame.btnShowAllEmployees.setEnabled(true);
 		}
 		else if (process.equalsIgnoreCase("clear")) {
 			log.debug("Changing Buttons status - Clear button pressed");
@@ -107,6 +115,7 @@ public class AuxFunctions {
 			UploadFrame.btnProcess.setEnabled(false);
 			UploadFrame.btnSaveInDb.setEnabled(false);
 			UploadFrame.btnClear.setEnabled(false);
+			UploadFrame.btnShowAllEmployees.setEnabled(true);
 		}
 		else if (process.equalsIgnoreCase("save")) {
 			log.debug("Changing Buttons status - Save button pressed");
@@ -114,6 +123,23 @@ public class AuxFunctions {
 			UploadFrame.btnProcess.setEnabled(false);
 			UploadFrame.btnClear.setEnabled(false);
 			UploadFrame.btnSaveInDb.setEnabled(false);
+			UploadFrame.btnShowAllEmployees.setEnabled(true);
 		}
+	}
+
+	public void showAllInfo() throws SQLException{
+		dbConnector = dbConnection.connectionDB();
+		ResultSet data;
+		data = dbFunction.showDbInfo(dbConnector);
+        int columns = data.getMetaData().getColumnCount();
+        while(data.next())
+        {  
+            Object[] row = new Object[columns];
+            for (int i = 1; i <= columns; i++)
+            {  
+                row[i - 1] = data.getObject(i);
+            }
+            ((DefaultTableModel) UploadFrame.table.getModel()).insertRow(data.getRow()-1,row);
+        }
 	}
 }
