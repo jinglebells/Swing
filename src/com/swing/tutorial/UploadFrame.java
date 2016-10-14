@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,6 +26,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import javax.swing.JTable;
 
 public class UploadFrame extends JFrame {
 
@@ -35,11 +37,13 @@ public class UploadFrame extends JFrame {
 	JPanel contentPane;
 	JTextField pathField;
 	static JTextArea textArea;
+	static JTable table;
 
 	static JButton btnProcess;
 	static JButton btnUpload;
 	static JButton btnClear;
 	static JButton btnSaveInDb;
+	static JButton btnShowAllEmployees;
 
 	JLabel lblYourFileContents;
 
@@ -49,6 +53,7 @@ public class UploadFrame extends JFrame {
 	String process;
 
 	AuxFunctions aux = new AuxFunctions();
+	
 
 	/**
 	 * Launch the application.
@@ -81,6 +86,7 @@ public class UploadFrame extends JFrame {
 		setBounds(100, 100, 702, 490);
 		ImageIcon webIcon = new ImageIcon("resources\\mtrust.png");
 		setIconImage(webIcon.getImage());
+		
 
 		//Buttons
 		//Upload Button
@@ -107,6 +113,12 @@ public class UploadFrame extends JFrame {
 		btnSaveInDb.setBounds(5, 225, 165, 23);
 		btnSaveInDb.setEnabled(false);
 		contentPane.add(btnSaveInDb);
+		//Show All Info Button
+		log.debug("Adding Show All Info Button to GUI...");
+		btnShowAllEmployees = new JButton("Show All Employes");
+		btnShowAllEmployees.setBounds(5, 259, 165, 23);
+		btnSaveInDb.setEnabled(true);
+		contentPane.add(btnShowAllEmployees);
 
 		//TextField - Path
 		log.debug("Adding Path Field to GUI...");
@@ -131,7 +143,12 @@ public class UploadFrame extends JFrame {
 		lblYourFileContents = new JLabel("Your File Contents");
 		lblYourFileContents.setBounds(5, 85, 89, 14);
 		contentPane.add(lblYourFileContents);
-
+		
+		//Table
+		table = new JTable();
+		table.setBounds(5, 303, 661, 116);
+		contentPane.add(table);
+		
 		//MenuBar
 		log.debug("Adding Menu Bar to GUI...");
 		JMenuBar menubar = new JMenuBar();
@@ -209,6 +226,19 @@ public class UploadFrame extends JFrame {
 				aux.enableButtons(process);
 				textArea.setText("");
 				pathField.setText("");
+			}
+		});
+		
+		//Button ShowAll Actions
+		
+		btnShowAllEmployees.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					aux.showAllInfo();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 	}
