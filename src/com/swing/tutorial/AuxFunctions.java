@@ -12,13 +12,13 @@ import com.opencsv.CSVReader;
 
 public class AuxFunctions {
 
-	 private static final Logger log = LogManager.getLogger(AuxFunctions.class);
-	
+	private static final Logger log = LogManager.getLogger(AuxFunctions.class);
+
 	DatabaseConnection dbConnection = new DatabaseConnection();
 	DatabaseFunctions dbFunction = new DatabaseFunctions();
-	
+
 	Connection dbConnector;
-	
+
 	public void parseCSVFile(String path, char separator, char quote) {
 		try {
 			log.info("Parsing the CSV File in order to proceed with the actions.");
@@ -28,11 +28,11 @@ public class AuxFunctions {
 				dbConnector = dbConnection.connectionDB();
 				try {
 					if (nextLine[0].equalsIgnoreCase("a")) {
-						log.info("Adding Info to DB");
+						log.info("Adding Employee information to DB");
 						dbFunction.insertDB(dbConnector, nextLine);
 					}
 					else if (nextLine[0].equalsIgnoreCase("r")) {
-						log.info("Removing Info to DB");
+						log.info("Removing Employee from DB");
 						dbFunction.removeDB(dbConnector, nextLine);
 					}
 					else {
@@ -62,52 +62,55 @@ public class AuxFunctions {
 		}
 	}
 
-	public void readFile(String path) {
+	public void readFile(String path) throws IOException {
 		FileReader reader = null;
 		try {
+			log.info("Processing the file...");
 			reader = new FileReader(path);
+			log.info("Pasting file in textArea...");
 			UploadFrame.textArea.read(reader, null);
 			UploadFrame.btnUpload.setEnabled(true);
 			UploadFrame.btnProcess.setEnabled(false);
 			UploadFrame.btnClear.setEnabled(true);
 		}
-		catch (Exception exc) {
+		catch (IOException exc) {
+			JOptionPane.showMessageDialog(null,"Error occurred when processing the file.");
+			log.fatal("Error in reading the file");
 			UploadFrame.btnProcess.setEnabled(false);
 			UploadFrame.btnClear.setEnabled(true);
+			exc.printStackTrace();
 		}
 		finally {
 			if (reader != null) {
-				try {
-					reader.close();
-				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(null,"Error occurred when processing the file.");
-					e1.printStackTrace();
-					System.exit(0);
-				}
+				reader.close();
 			}
 		}
 	}
 
 	public void enableButtons(String process) {
 		if (process.equalsIgnoreCase("upload")) {
+			log.debug("Changing Buttons status - Upload button pressed");
 			UploadFrame.btnProcess.setEnabled(true);
 			UploadFrame.btnClear.setEnabled(true);
 			UploadFrame.btnSaveInDb.setEnabled(false);
 			UploadFrame.btnUpload.setEnabled(false);
 		}
 		else if (process.equalsIgnoreCase("process")) {
+			log.debug("Changing Buttons status - Process button pressed");
 			UploadFrame.btnUpload.setEnabled(false);
 			UploadFrame.btnClear.setEnabled(true);
 			UploadFrame.btnSaveInDb.setEnabled(true);
 			UploadFrame.btnProcess.setEnabled(false);
 		}
 		else if (process.equalsIgnoreCase("clear")) {
+			log.debug("Changing Buttons status - Clear button pressed");
 			UploadFrame.btnUpload.setEnabled(true);
 			UploadFrame.btnProcess.setEnabled(false);
 			UploadFrame.btnSaveInDb.setEnabled(false);
 			UploadFrame.btnClear.setEnabled(false);
 		}
 		else if (process.equalsIgnoreCase("save")) {
+			log.debug("Changing Buttons status - Save button pressed");
 			UploadFrame.btnUpload.setEnabled(true);
 			UploadFrame.btnProcess.setEnabled(false);
 			UploadFrame.btnClear.setEnabled(false);

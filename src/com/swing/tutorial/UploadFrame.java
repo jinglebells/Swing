@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -175,7 +177,15 @@ public class UploadFrame extends JFrame {
 		//Button Process Actions
 		btnProcess.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				aux.readFile(pathField.getText());
+				try {
+					aux.readFile(pathField.getText());
+				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(null,"Error occurred when processing the file.");
+					log.fatal("Error in reading the file");
+					UploadFrame.btnProcess.setEnabled(false);
+					UploadFrame.btnClear.setEnabled(true);
+					e1.printStackTrace();
+				}
 				process = "process";
 				aux.enableButtons(process);
 			}
