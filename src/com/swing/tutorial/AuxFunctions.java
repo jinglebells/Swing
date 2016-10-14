@@ -131,15 +131,30 @@ public class AuxFunctions {
 		dbConnector = dbConnection.connectionDB();
 		ResultSet data;
 		data = dbFunction.showDbInfo(dbConnector);
-        int columns = data.getMetaData().getColumnCount();
-        while(data.next())
-        {  
-            Object[] row = new Object[columns];
-            for (int i = 1; i <= columns; i++)
-            {  
-                row[i - 1] = data.getObject(i);
-            }
-            ((DefaultTableModel) UploadFrame.table.getModel()).insertRow(data.getRow()-1,row);
-        }
+		String[] tableColumnsName = {"ID","Name","Surname", "Age", "Position", "Salary"}; 
+		DefaultTableModel aModel = (DefaultTableModel) UploadFrame.table.getModel();
+		//aModel.setColumnIdentifiers(tableColumnsName);
+		aModel.addColumn("ID");
+		aModel.addColumn("Name");
+		aModel.addColumn("Surname");
+		aModel.addColumn("Age");
+		aModel.addColumn("Position");
+		aModel.addColumn("Salary");
+		// Loop through the ResultSet and transfer in the Model
+		java.sql.ResultSetMetaData rsmd = data.getMetaData();
+		int colNo = rsmd.getColumnCount();
+		Object[] header = new Object[colNo];
+		for (int i=0; i<tableColumnsName.length; i++) {
+			header[i]=tableColumnsName[i];
+		}
+		aModel.addRow(header);
+		while(data.next()){
+		 Object[] objects = new Object[colNo];
+		 for(int i=0;i<colNo;i++){
+		  objects[i]=data.getObject(i+1);
+		  }
+		 aModel.addRow(objects);
+		}
+		UploadFrame.table.setModel(aModel);
 	}
 }
