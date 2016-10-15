@@ -1,4 +1,4 @@
-package com.swing.tutorial;
+package com.swing.database;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -14,7 +14,7 @@ import lombok.NonNull;
 
 public class DatabaseFunctions {
 
-	Statement stmt,stmt2;
+	Statement statement,statementAux;
 	int id = 0;
 	
 	 private static final Logger log = LogManager.getLogger(DatabaseFunctions.class);
@@ -23,10 +23,10 @@ public class DatabaseFunctions {
 		try {
 			id = getIdInsert(c);
 			log.debug("The new line will be with id="+(id+1));
-			stmt = c.createStatement();
+			statement = c.createStatement();
 			String sql = "insert into data.info (id, name, surname, age, position, salary) VALUES ("+(id+1)+",'"
 					+ information[1]+"','"+information[2]+"',"+information[3]+",'"+information[4]+"','"+information[5]+"');";
-			stmt.executeUpdate(sql);
+			statement.executeUpdate(sql);
 			c.commit();
 			log.info("The line " + information + " was inserted in the DB");
 
@@ -36,8 +36,8 @@ public class DatabaseFunctions {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null,"Error occured when processing the file.");
 		} finally {
-			if (c!=null && stmt!=null) {
-				stmt.close();
+			if (c!=null && statement!=null) {
+				statement.close();
 				c.close();
 				log.info("The statement and connection were closed.");
 			}
@@ -52,9 +52,9 @@ public class DatabaseFunctions {
 				JOptionPane.showMessageDialog(null,"Employee not exist in database.");
 				return;
 			}
-			stmt = c.createStatement();
+			statement = c.createStatement();
 			String sql = "delete from data.info where id="+id;
-			stmt.executeUpdate(sql);
+			statement.executeUpdate(sql);
 	        c.commit();
 	        log.info("The employee with id=" + id+ " was deleted.");
 	        
@@ -64,8 +64,8 @@ public class DatabaseFunctions {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null,"Error occured when processing the file.");
 		} finally {
-			if (c!=null && stmt!=null) {
-				stmt.close();
+			if (c!=null && statement!=null) {
+				statement.close();
 				c.close();
 				log.info("The statement and connection were closed.");
 			}
@@ -76,8 +76,8 @@ public class DatabaseFunctions {
 		ResultSet rs = null;
 		try {
 			log.debug("Getting all employees from DB.");
-			stmt = c.createStatement();
-			rs = stmt.executeQuery("SELECT id, name, surname, age, position, salary FROM data.info");
+			statement = c.createStatement();
+			rs = statement.executeQuery("SELECT id, name, surname, age, position, salary FROM data.info");
 		} catch (SQLException e) {
 			log.fatal("SQL Exception while retrieving all information from DB.");
 			e.printStackTrace();
@@ -89,8 +89,8 @@ public class DatabaseFunctions {
 	private int getIdInsert(@NonNull Connection c) {
 		try {
 			log.debug("Getting the id to insert.");
-			stmt2 = c.createStatement();
-			ResultSet rs = stmt2.executeQuery("SELECT id FROM data.info ORDER BY id DESC LIMIT 1");
+			statementAux = c.createStatement();
+			ResultSet rs = statementAux.executeQuery("SELECT id FROM data.info ORDER BY id DESC LIMIT 1");
 			while (rs.next()) {
 				id = rs.getInt("id");
 			}
@@ -105,11 +105,11 @@ public class DatabaseFunctions {
 	private int getIdDelete(@NonNull Connection c, @NonNull String[] information) {
 		try {
 			log.debug("Getting the id to remove.");
-			stmt2 = c.createStatement();
+			statementAux = c.createStatement();
 			String sql = "Select id from data.info "
 					+ "where name='"+ information[1] +"' and surname='"
 					+ information[2]+"';";
-			ResultSet rs = stmt2.executeQuery(sql);
+			ResultSet rs = statementAux.executeQuery(sql);
 			while (rs.next()) {
 				id = rs.getInt("id");
 			}

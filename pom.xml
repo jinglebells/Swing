@@ -5,6 +5,7 @@
 	<artifactId>SwingTutorial</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Swing Tutorial</name>
+	<url>http://maven.apache.org</url>
 	<description>Small tests to be initiated to Java Swing</description>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
