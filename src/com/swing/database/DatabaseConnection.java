@@ -1,7 +1,10 @@
-package com.swing.tutorial;
+package com.swing.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+
+import javax.swing.JOptionPane;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,6 +23,7 @@ public class DatabaseConnection {
 			c.setAutoCommit(false);
 		} catch (Exception e) {
 			log.fatal("Error Trying to connect to DB.");
+			JOptionPane.showMessageDialog(null,"The Database is not accessible, please contact IT.");
 			e.printStackTrace();
 			System.exit(0);
 		}
