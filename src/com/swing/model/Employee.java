@@ -1,4 +1,4 @@
-package com.swing.tutorial;
+package com.swing.model;
 
 public class Employee {
 	
