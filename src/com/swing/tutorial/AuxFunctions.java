@@ -150,15 +150,15 @@ public class AuxFunctions {
 			aModel.removeRow(i);
 		}
 		while(data.next()){
-		 Object[] objects = new Object[colNo];
-		 for(int i=0;i<colNo;i++){
-		  objects[i]=data.getObject(i+1);
-		  }
-		 aModel.addRow(objects);
+			Object[] objects = new Object[colNo];
+			for(int i=0;i<colNo;i++){
+				objects[i]=data.getObject(i+1);
+			}
+			aModel.addRow(objects);
 		}
-		
+
 	}
-	
+
 	public void setModelTable() {
 		DefaultTableModel aModel = (DefaultTableModel) UploadFrame.table.getModel();
 		aModel.addColumn("ID");
@@ -168,5 +168,25 @@ public class AuxFunctions {
 		aModel.addColumn("Position");
 		aModel.addColumn("Salary");
 		UploadFrame.table.setModel(aModel);
+	}
+
+	public void fillComboBox() {
+		ResultSet results = null;
+		dbConnector = dbConnection.connectionDB();
+		results = dbFunction.findId(dbConnector);
+		try {
+			while (results.next()) {
+				UploadFrame.comboBox.addItem(results.getInt("id"));
+			}
+		} catch (SQLException e) {
+			log.fatal("SQL Exception while getting the id for removal.");
+			e.printStackTrace();
+		}
+	}
+
+	public void deleteByID() {
+		dbConnector = dbConnection.connectionDB();
+		dbFunction.removeById(dbConnector, UploadFrame.comboBox.getSelectedItem());
+		fillComboBox();
 	}
 }
