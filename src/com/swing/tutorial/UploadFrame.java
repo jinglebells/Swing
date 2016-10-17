@@ -30,6 +30,7 @@ import javax.swing.table.JTableHeader;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import javax.swing.JComboBox;
 
 public class UploadFrame extends JFrame {
 
@@ -47,8 +48,12 @@ public class UploadFrame extends JFrame {
 	static JButton btnClear;
 	static JButton btnSaveInDb;
 	static JButton btnShowAllEmployees;
+	JButton btnDelete;
 
 	JLabel lblYourFileContents;
+	JLabel lblDeleteById;
+	
+	static JComboBox<Object> comboBox;
 
 	private char CSV_SEPARATOR = ',';
 	private char CSV_QUOTE = '\"';
@@ -86,7 +91,7 @@ public class UploadFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 702, 490);
+		setBounds(100, 100, 702, 691);
 		ImageIcon webIcon = new ImageIcon("resources\\mtrust.png");
 		setIconImage(webIcon.getImage());
 
@@ -122,6 +127,11 @@ public class UploadFrame extends JFrame {
 		btnShowAllEmployees.setBounds(5, 259, 165, 23);
 		btnShowAllEmployees.setEnabled(true);
 		contentPane.add(btnShowAllEmployees);
+		//Delete by ID Button
+		btnDelete = new JButton("Delete");
+		btnDelete.setBounds(112, 436, 89, 23);
+		btnDelete.setEnabled(true);
+		contentPane.add(btnDelete);
 
 		//TextField - Path
 		log.debug("Adding Path Field to GUI...");
@@ -146,6 +156,10 @@ public class UploadFrame extends JFrame {
 		lblYourFileContents = new JLabel("Your File Contents");
 		lblYourFileContents.setBounds(5, 85, 89, 14);
 		contentPane.add(lblYourFileContents);
+		//DeleteByID
+		lblDeleteById = new JLabel("Delete by ID");
+		lblDeleteById.setBounds(5, 440, 66, 14);
+		contentPane.add(lblDeleteById);
 
 		//Table
 		table = new JTable();
@@ -157,8 +171,13 @@ public class UploadFrame extends JFrame {
 		js.setBounds(5, 303, 661, 116);
 		aux.setModelTable();
 		contentPane.add(js);
-		//		contentPane.add(table);
-
+		
+		//ComboBox
+		comboBox = new JComboBox<Object>();
+		comboBox.setBounds(76, 437, 28, 20);
+		aux.fillComboBox();
+		contentPane.add(comboBox);
+		
 		//MenuBar
 		log.debug("Adding Menu Bar to GUI...");
 		JMenuBar menubar = new JMenuBar();
@@ -245,7 +264,6 @@ public class UploadFrame extends JFrame {
 		});
 
 		//Button ShowAll Actions
-
 		btnShowAllEmployees.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -256,6 +274,13 @@ public class UploadFrame extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+			}
+		});
+		
+		//Button delete by ID
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				aux.deleteByID();
 			}
 		});
 	}
