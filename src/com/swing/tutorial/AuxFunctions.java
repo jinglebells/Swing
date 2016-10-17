@@ -187,6 +187,7 @@ public class AuxFunctions {
 	public void deleteByID() {
 		dbConnector = dbConnection.connectionDB();
 		dbFunction.removeById(dbConnector, UploadFrame.comboBox.getSelectedItem());
+		UploadFrame.comboBox.removeAllItems();
 		fillComboBox();
 	}
 }
