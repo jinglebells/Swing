@@ -16,8 +16,8 @@ public class DatabaseFunctions {
 
 	Statement statement,statementAux;
 	int id = 0;
-	
-	 private static final Logger log = LogManager.getLogger(DatabaseFunctions.class);
+
+	private static final Logger log = LogManager.getLogger(DatabaseFunctions.class);
 
 	public void insertDB(@NonNull Connection c, @NonNull String[] information) throws SQLException {
 		try {
@@ -43,7 +43,7 @@ public class DatabaseFunctions {
 			}
 		}
 	}
-	
+
 	public void removeDB(@NonNull Connection c, @NonNull String[] information) throws SQLException {
 		try {
 			id = getIdDelete(c, information);
@@ -55,9 +55,9 @@ public class DatabaseFunctions {
 			statement = c.createStatement();
 			String sql = "delete from data.info where id="+id;
 			statement.executeUpdate(sql);
-	        c.commit();
-	        log.info("The employee with id=" + id+ " was deleted.");
-	        
+			c.commit();
+			log.info("The employee with id=" + id+ " was deleted.");
+
 		} catch (SQLException e) {
 			log.fatal("SQL Exception was caught while removing information.");
 			c.rollback();
@@ -85,7 +85,7 @@ public class DatabaseFunctions {
 		}
 		return rs;
 	}
-	
+
 	private int getIdInsert(@NonNull Connection c) {
 		try {
 			log.debug("Getting the id to insert.");
@@ -101,7 +101,7 @@ public class DatabaseFunctions {
 		}
 		return id;
 	}
-	
+
 	private int getIdDelete(@NonNull Connection c, @NonNull String[] information) {
 		try {
 			log.debug("Getting the id to remove.");
@@ -119,5 +119,36 @@ public class DatabaseFunctions {
 			JOptionPane.showMessageDialog(null,"Error occured when processing the file.");
 		}
 		return id;
+	}
+
+	public ResultSet findId(@NonNull Connection c) {
+		log.debug("Getting the id to fill ComboBox");
+		ResultSet rs = null;
+		try {
+			statement = c.createStatement();
+			String sql = "Select id from data.info";
+			rs = statement.executeQuery(sql);
+		} catch (SQLException e) {
+			log.fatal("SQL Exception while getting the id for removal.");
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,"Error occured when processing the file.");
+		} 
+		return rs;
+	}
+
+	public void removeById(@NonNull Connection c, @NonNull Object object) {
+		log.debug("Getting the id to delete by ComboBox");
+		try {
+			statement = c.createStatement();
+			String sql = "delete from data.info where id="+object.toString();
+			statement.executeUpdate(sql);
+			c.commit();
+			log.info("The employee with id=" + object.toString() + " was deleted.");
+
+		} catch (SQLException e) {
+			log.fatal("SQL Exception while getting the id for removal.");
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,"Error occured when processing the file.");
+		}
 	}
 }
