@@ -96,6 +96,7 @@ public class AuxFunctions {
 	public void enableButtons(@NonNull String process) {
 		if (process.equalsIgnoreCase("upload")) {
 			log.debug("Changing Buttons status - Upload button pressed");
+			fillComboBox();
 			UploadFrame.btnProcess.setEnabled(true);
 			UploadFrame.btnClear.setEnabled(true);
 			UploadFrame.btnSaveInDb.setEnabled(false);
@@ -104,6 +105,7 @@ public class AuxFunctions {
 		}
 		else if (process.equalsIgnoreCase("process")) {
 			log.debug("Changing Buttons status - Process button pressed");
+			fillComboBox();
 			UploadFrame.btnUpload.setEnabled(false);
 			UploadFrame.btnClear.setEnabled(true);
 			UploadFrame.btnSaveInDb.setEnabled(true);
@@ -112,6 +114,7 @@ public class AuxFunctions {
 		}
 		else if (process.equalsIgnoreCase("clear")) {
 			log.debug("Changing Buttons status - Clear button pressed");
+			fillComboBox();
 			UploadFrame.btnUpload.setEnabled(true);
 			UploadFrame.btnProcess.setEnabled(false);
 			UploadFrame.btnSaveInDb.setEnabled(false);
@@ -120,6 +123,7 @@ public class AuxFunctions {
 		}
 		else if (process.equalsIgnoreCase("save")) {
 			log.debug("Changing Buttons status - Save button pressed");
+			fillComboBox();
 			UploadFrame.btnUpload.setEnabled(true);
 			UploadFrame.btnProcess.setEnabled(false);
 			UploadFrame.btnClear.setEnabled(false);
@@ -128,6 +132,7 @@ public class AuxFunctions {
 		}
 		else if (process.equalsIgnoreCase("showall")) {
 			log.debug("Changing Buttons status - Show All Info button pressed");
+			fillComboBox();
 			UploadFrame.btnUpload.setEnabled(true);
 			UploadFrame.btnProcess.setEnabled(false);
 			UploadFrame.btnClear.setEnabled(true);
@@ -137,6 +142,7 @@ public class AuxFunctions {
 	}
 
 	public void showAllInfo() throws SQLException{
+		fillComboBox();
 		dbConnector = dbConnection.connectionDB();
 		ResultSet data;
 		data = dbFunction.showDbInfo(dbConnector);
@@ -171,6 +177,7 @@ public class AuxFunctions {
 
 	public void fillComboBox() {
 		ResultSet results = null;
+		UploadFrame.comboBox.removeAllItems();
 		dbConnector = dbConnection.connectionDB();
 		results = dbFunction.findId(dbConnector);
 		try {
@@ -186,7 +193,6 @@ public class AuxFunctions {
 	public void deleteByID() {
 		dbConnector = dbConnection.connectionDB();
 		dbFunction.removeById(dbConnector, UploadFrame.comboBox.getSelectedItem());
-		UploadFrame.comboBox.removeAllItems();
 		fillComboBox();
 	}
 }
