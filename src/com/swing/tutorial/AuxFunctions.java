@@ -156,7 +156,6 @@ public class AuxFunctions {
 			}
 			aModel.addRow(objects);
 		}
-
 	}
 
 	public void setModelTable() {
