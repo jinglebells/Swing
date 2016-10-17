@@ -141,15 +141,14 @@ public class AuxFunctions {
 		ResultSet data;
 		data = dbFunction.showDbInfo(dbConnector);
 		DefaultTableModel aModel = (DefaultTableModel) UploadFrame.table.getModel();
-		aModel.addColumn("ID");
-		aModel.addColumn("Name");
-		aModel.addColumn("Surname");
-		aModel.addColumn("Age");
-		aModel.addColumn("Position");
-		aModel.addColumn("Salary");
 		// Loop through the ResultSet and transfer in the Model
 		java.sql.ResultSetMetaData rsmd = data.getMetaData();
 		int colNo = rsmd.getColumnCount();
+		int rowCount = aModel.getRowCount();
+		//Remove rows one by one from the end of the table
+		for (int i = rowCount - 1; i >= 0; i--) {
+			aModel.removeRow(i);
+		}
 		while(data.next()){
 		 Object[] objects = new Object[colNo];
 		 for(int i=0;i<colNo;i++){
@@ -157,6 +156,17 @@ public class AuxFunctions {
 		  }
 		 aModel.addRow(objects);
 		}
+		
+	}
+	
+	public void setModelTable() {
+		DefaultTableModel aModel = (DefaultTableModel) UploadFrame.table.getModel();
+		aModel.addColumn("ID");
+		aModel.addColumn("Name");
+		aModel.addColumn("Surname");
+		aModel.addColumn("Age");
+		aModel.addColumn("Position");
+		aModel.addColumn("Salary");
 		UploadFrame.table.setModel(aModel);
 	}
 }

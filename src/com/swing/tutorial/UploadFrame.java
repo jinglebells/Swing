@@ -155,6 +155,7 @@ public class UploadFrame extends JFrame {
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		js.setVisible(true);
 		js.setBounds(5, 303, 661, 116);
+		aux.setModelTable();
 		contentPane.add(js);
 		//		contentPane.add(table);
 
