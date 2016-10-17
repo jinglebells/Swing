@@ -120,7 +120,7 @@ public class UploadFrame extends JFrame {
 		log.debug("Adding Show All Info Button to GUI...");
 		btnShowAllEmployees = new JButton("Show All Employes");
 		btnShowAllEmployees.setBounds(5, 259, 165, 23);
-		btnSaveInDb.setEnabled(true);
+		btnShowAllEmployees.setEnabled(true);
 		contentPane.add(btnShowAllEmployees);
 
 		//TextField - Path
