@@ -151,4 +151,41 @@ public class DatabaseFunctions {
 			JOptionPane.showMessageDialog(null,"Error occured when processing the file.");
 		}
 	}
+
+	public void modifyDB(@NonNull Connection c,@NonNull String[] nextLine) {
+		log.debug("Modify user in DB.");
+		int counter=0;
+		String[] headerModify = {"operation","id","name","surname","age","position","salary"};
+		try {
+			statement = c.createStatement();
+			String sqlPart1 = "update data.info";
+			String sqlPart2 = " SET ";
+			String sqlPart3 = " where id="+nextLine[1];
+
+			for (int i=2; i<nextLine.length; i++) {
+				if (!nextLine[i].isEmpty()) {
+					if (counter ==0) {
+						sqlPart2=sqlPart2+headerModify[i]+"='"+nextLine[i]+"'";
+						counter++;
+					}
+					else {
+						sqlPart2=""+sqlPart2+", "+headerModify[i]+"='"+nextLine[i]+"'";
+					}
+				}
+				else {
+					continue;
+				}
+			}
+			String sql = sqlPart1+sqlPart2+sqlPart3;
+			statement.executeUpdate(sql);
+			c.commit();
+			log.info("The employee with id=" + nextLine[1] + " was modified.");
+
+		} catch (SQLException e) {
+			log.fatal("SQL Exception while modifying the use ron DB.");
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,"Error occured when processing the file.");
+		}
+
+	}
 }
