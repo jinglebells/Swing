@@ -44,6 +44,10 @@ public class AuxFunctions {
 						log.info("Removing Employee from DB");
 						dbFunction.removeDB(dbConnector, nextLine);
 					}
+					else if (nextLine[0].equalsIgnoreCase("m")) {
+						log.info("Modifying Employee from DB");
+						dbFunction.modifyDB(dbConnector, nextLine);
+					}
 					else {
 						log.info("Wrong action in file (" + nextLine[0] + ").");
 						JOptionPane.showMessageDialog(null,"Not a valid operation in file (" + nextLine[0] +") The actions must be 'a' or 'r'.");
