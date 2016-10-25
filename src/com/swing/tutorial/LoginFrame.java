@@ -24,8 +24,8 @@ public class LoginFrame extends JFrame {
 	
 	JPanel contentLogin;
 	
-	private JTextField username;
-	private JPasswordField pwdPassword;
+	static JTextField username;
+	static JPasswordField pwdPassword;
 	
 	JButton btnLogin;
 	JButton btnRegister;
