@@ -97,6 +97,7 @@ public class LoginFrame extends JFrame {
 		contentLogin.add(pwdPassword);
 		
 		//Actions
+		//Login Buton
 		btnLogin.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
