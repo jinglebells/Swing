@@ -19,8 +19,26 @@ public class DatabaseFunctions {
 
 	private static final Logger log = LogManager.getLogger(DatabaseFunctions.class);
 
-	public void loginDB(@NonNull Connection c, String username, String password) {
-		
+	public boolean loginDB(@NonNull Connection c, String username, String password) {
+		log.debug("Login actions to be preformed.");
+		ResultSet rs = null;
+		try {
+			statement = c.createStatement();
+			String sql = "select id from data.users where username=" + username + " and password=" + password + ";";
+			rs = statement.executeQuery(sql);
+			if (!rs.next()) {
+				return false;
+			}
+			else {
+				return true;
+			}
+			
+		} catch (SQLException e) {
+			log.fatal("SQL Exception was caught while searching for the user information.");
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,"Error occured when processing the file.");
+		}
+		return false; 
 	}
 	
 	public void insertDB(@NonNull Connection c, @NonNull String[] information) throws SQLException {
