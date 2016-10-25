@@ -19,6 +19,10 @@ public class DatabaseFunctions {
 
 	private static final Logger log = LogManager.getLogger(DatabaseFunctions.class);
 
+	public void loginDB(@NonNull Connection c, String username, String password) {
+		
+	}
+	
 	public void insertDB(@NonNull Connection c, @NonNull String[] information) throws SQLException {
 		try {
 			id = getIdInsert(c);
