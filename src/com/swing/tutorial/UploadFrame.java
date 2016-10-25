@@ -38,7 +38,7 @@ public class UploadFrame extends JFrame {
 
 	private static final Logger log = LogManager.getLogger(UploadFrame.class);
 
-	JPanel contentPane;
+	JPanel contentUpload;
 	JTextField pathField;
 	static JTextArea textArea;
 	static JTable table;
@@ -62,23 +62,6 @@ public class UploadFrame extends JFrame {
 
 	AuxFunctions aux = new AuxFunctions();
 
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					UploadFrame frame = new UploadFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Create the frame.
 	 */
@@ -86,10 +69,10 @@ public class UploadFrame extends JFrame {
 
 		//Content
 		log.debug("Adding Content to GUI...");
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		contentUpload = new JPanel();
+		contentUpload.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentUpload);
+		contentUpload.setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 702, 691);
 		ImageIcon webIcon = new ImageIcon("resources\\mtrust.png");
@@ -102,36 +85,36 @@ public class UploadFrame extends JFrame {
 		btnUpload = new JButton("Upload");
 		btnUpload.setBounds(5, 5, 84, 23);
 		btnUpload.setEnabled(true);
-		contentPane.add(btnUpload);
+		contentUpload.add(btnUpload);
 		//Process Button
 		log.debug("Adding Process Button to GUI...");
 		btnProcess = new JButton("Process");
 		btnProcess.setEnabled(false);
 		btnProcess.setBounds(5, 39, 84, 23);
-		contentPane.add(btnProcess);
+		contentUpload.add(btnProcess);
 		//Clear Button
 		log.debug("Adding Clear Button to GUI...");
 		btnClear = new JButton("Clear");
 		btnClear.setBounds(94, 39, 89, 23);
 		btnClear.setEnabled(false);
-		contentPane.add(btnClear);
+		contentUpload.add(btnClear);
 		//Save in DB Button
 		log.debug("Adding Save in DB Button to GUI...");
 		btnSaveInDb = new JButton("Commit Actions in DB");
 		btnSaveInDb.setBounds(5, 225, 165, 23);
 		btnSaveInDb.setEnabled(false);
-		contentPane.add(btnSaveInDb);
+		contentUpload.add(btnSaveInDb);
 		//Show All Info Button
 		log.debug("Adding Show All Info Button to GUI...");
 		btnShowAllEmployees = new JButton("Show All Employes");
 		btnShowAllEmployees.setBounds(5, 259, 165, 23);
 		btnShowAllEmployees.setEnabled(true);
-		contentPane.add(btnShowAllEmployees);
+		contentUpload.add(btnShowAllEmployees);
 		//Delete by ID Button
 		btnDelete = new JButton("Delete");
 		btnDelete.setBounds(112, 436, 89, 23);
 		btnDelete.setEnabled(true);
-		contentPane.add(btnDelete);
+		contentUpload.add(btnDelete);
 
 		//TextField - Path
 		log.debug("Adding Path Field to GUI...");
@@ -139,7 +122,7 @@ public class UploadFrame extends JFrame {
 		pathField.setBounds(94, 6, 200, 20);
 		pathField.setEditable(false);
 		pathField.setColumns(20);
-		contentPane.add(pathField);
+		contentUpload.add(pathField);
 
 		//JTextArea
 		log.debug("Adding Text Area to GUI...");
@@ -148,18 +131,18 @@ public class UploadFrame extends JFrame {
 		JScrollPane scroll = new JScrollPane (textArea, 
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scroll.setBounds(5, 110, 661, 104);
-		contentPane.add(scroll);
+		contentUpload.add(scroll);
 
 		//Labels
 		//YourContents
 		log.debug("Adding Label to GUI...");
 		lblYourFileContents = new JLabel("Your File Contents");
 		lblYourFileContents.setBounds(5, 85, 89, 14);
-		contentPane.add(lblYourFileContents);
+		contentUpload.add(lblYourFileContents);
 		//DeleteByID
 		lblDeleteById = new JLabel("Delete by ID");
 		lblDeleteById.setBounds(5, 440, 66, 14);
-		contentPane.add(lblDeleteById);
+		contentUpload.add(lblDeleteById);
 
 		//Table
 		table = new JTable();
@@ -170,13 +153,13 @@ public class UploadFrame extends JFrame {
 		js.setVisible(true);
 		js.setBounds(5, 303, 661, 116);
 		aux.setModelTable();
-		contentPane.add(js);
+		contentUpload.add(js);
 		
 		//ComboBox
 		comboBox = new JComboBox<Object>();
 		comboBox.setBounds(76, 437, 28, 20);
 		aux.fillComboBox();
-		contentPane.add(comboBox);
+		contentUpload.add(comboBox);
 		
 		//MenuBar
 		log.debug("Adding Menu Bar to GUI...");
