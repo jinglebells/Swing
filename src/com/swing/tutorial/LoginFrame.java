@@ -2,6 +2,7 @@ package com.swing.tutorial;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -102,7 +103,14 @@ public class LoginFrame extends JFrame {
 				aux.login(username.getText(), pwdPassword.getText());
 			}
 		});
+	}
 
+	public static void closeFrame(Frame[] frames) {
+		for (Frame frame : frames) {
+			if (frame.getName().equalsIgnoreCase("frame0")) {
+				frame.dispose();
+			}
+		}
 	}
 }
 
