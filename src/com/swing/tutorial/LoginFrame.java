@@ -21,8 +21,7 @@ public class LoginFrame extends JFrame {
 
 	private static final Logger log = LogManager.getLogger(LoginFrame.class);
 	
-	
-	JPanel contentLogin;
+	static JPanel contentLogin;
 	
 	static JTextField username;
 	static JPasswordField pwdPassword;
