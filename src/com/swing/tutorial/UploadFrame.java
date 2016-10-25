@@ -253,7 +253,6 @@ public class UploadFrame extends JFrame {
 					process = "showAll";
 					aux.enableButtons(process);
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
