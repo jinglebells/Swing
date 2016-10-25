@@ -38,7 +38,7 @@ public class DatabaseFunctions {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null,"Error occured when processing the file.");
 		}
-		return false; 
+		return true; 
 	}
 	
 	public void insertDB(@NonNull Connection c, @NonNull String[] information) throws SQLException {
