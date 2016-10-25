@@ -1,6 +1,7 @@
 package com.swing.tutorial;
 
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -37,7 +38,7 @@ public class UploadFrame extends JFrame {
 
 	private static final Logger log = LogManager.getLogger(UploadFrame.class);
 
-	JPanel contentUpload;
+	static JPanel contentUpload;
 	JTextField pathField;
 	static JTextArea textArea;
 	static JTable table;
@@ -61,6 +62,23 @@ public class UploadFrame extends JFrame {
 
 	AuxFunctions aux = new AuxFunctions();
 
+	
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					UploadFrame frame = new UploadFrame();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
 	/**
 	 * Create the frame.
 	 */
