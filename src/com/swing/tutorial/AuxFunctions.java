@@ -38,14 +38,16 @@ public class AuxFunctions {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			md.update(password.getBytes());
 			String md5 = new BigInteger(1, md.digest()).toString(16); // Hash value
-			if (dbFunction.loginDB(dbConnector, username, md5)) {
-				
-			}
-			else {
+			//if (dbFunction.loginDB(dbConnector, username, md5)) {
+				LoginFrame.contentLogin.setEnabled(false);
+				UploadFrame uploadFrame = new UploadFrame();
+				uploadFrame.setEnabled(true);
+			//}
+			//else {
 				JOptionPane.showMessageDialog(null,"Invalid Credentials");
 				LoginFrame.username.setText("");
 				LoginFrame.pwdPassword.setText("");
-			}
+			//}
 		} catch (NoSuchAlgorithmException e) {
 			log.fatal("MD5 Error");
 			JOptionPane.showMessageDialog(null,"Problem found during login");
