@@ -1,4 +1,4 @@
-package com.swing.tutorial;
+package com.swing.gui;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;

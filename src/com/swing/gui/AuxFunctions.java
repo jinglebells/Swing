@@ -1,4 +1,4 @@
-package com.swing.tutorial;
+package com.swing.gui;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
