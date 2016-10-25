@@ -24,7 +24,7 @@ public class DatabaseFunctions {
 		ResultSet rs = null;
 		try {
 			statement = c.createStatement();
-			String sql = "select id from data.users where username=" + username + " and password=" + password + ";";
+			String sql = "select id from data.users where username='" + username + "' and password='" + password + "';";
 			rs = statement.executeQuery(sql);
 			if (!rs.next()) {
 				return false;
