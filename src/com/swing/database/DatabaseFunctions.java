@@ -20,16 +20,17 @@ public class DatabaseFunctions {
 	private static final Logger log = LogManager.getLogger(DatabaseFunctions.class);
 
 	public boolean loginDB(@NonNull Connection c, String username, String password) {
-		log.debug("Login actions to be preformed.");
 		ResultSet rs = null;
 		try {
 			statement = c.createStatement();
 			String sql = "select id from data.users where username='" + username + "' and password='" + password + "';";
 			rs = statement.executeQuery(sql);
 			if (!rs.next()) {
+				log.info("Invalid Login attempt.");
 				return false;
 			}
 			else {
+				log.info("Login Successfull.");
 				return true;
 			}
 			

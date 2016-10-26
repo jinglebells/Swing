@@ -18,7 +18,7 @@ public class DatabaseConnection {
 		try {
 			Class.forName("org.postgresql.Driver");
 			c = DriverManager
-					.getConnection("jdbc:postgresql://localhost:5433/mySwing",
+					.getConnection("jdbc:postgresql://localhost:5432/mySwing",
 							"postgres", "postgres");
 			c.setAutoCommit(false);
 		} catch (Exception e) {

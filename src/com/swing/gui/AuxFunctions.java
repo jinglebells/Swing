@@ -32,7 +32,7 @@ public class AuxFunctions {
 	Connection dbConnector;
 
 	public void login(@NonNull String username, @NonNull String password) {
-		
+		log.info("Trying to login.");
 		try {
 			dbConnector = dbConnection.connectionDB();
 			MessageDigest md = MessageDigest.getInstance("MD5");
@@ -43,7 +43,6 @@ public class AuxFunctions {
 				uploadFrame.setEnabled(true);
 				uploadFrame.setVisible(true);
 				LoginFrame.closeFrame(LoginFrame.getFrames());
-				
 			}
 			else {
 				JOptionPane.showMessageDialog(null,"Invalid Credentials");
@@ -55,7 +54,6 @@ public class AuxFunctions {
 			JOptionPane.showMessageDialog(null,"Problem found during login");
 			e.printStackTrace();
 		}
-		dbFunction.loginDB(dbConnector, username, password);
 	}
 	
 	public void parseCSVFile(@NonNull String path, @NonNull char separator, @NonNull char quote) {
