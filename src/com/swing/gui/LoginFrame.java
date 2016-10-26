@@ -63,6 +63,7 @@ public class LoginFrame extends JFrame {
 		setBounds(100, 100, 326, 167);
 
 		//Buttons
+		log.debug("Adding Login Buttons to GUI...");
 		//Button Login
 		btnLogin = new JButton("Login");
 		btnLogin.setBounds(117, 96, 89, 23);
@@ -73,6 +74,7 @@ public class LoginFrame extends JFrame {
 		contentLogin.add(btnRegister);
 
 		//Labels
+		log.debug("Adding Login labels to GUI...");
 		//Label Username
 		lblUsername = new JLabel("Username:");
 		lblUsername.setBounds(10, 14, 88, 14);
@@ -85,6 +87,7 @@ public class LoginFrame extends JFrame {
 		contentLogin.add(lblPassword);
 		
 		//TextFields
+		log.debug("Adding Login textfields to GUI...");
 		//Username TextFiels
 		username = new JTextField();
 		username.setBounds(108, 11, 142, 20);
