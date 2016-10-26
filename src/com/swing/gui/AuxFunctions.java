@@ -1,8 +1,11 @@
-package com.swing.tutorial;
+package com.swing.gui;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,6 +31,31 @@ public class AuxFunctions {
 
 	Connection dbConnector;
 
+	public void login(@NonNull String username, @NonNull String password) {
+		log.info("Trying to login.");
+		try {
+			dbConnector = dbConnection.connectionDB();
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			md.update(password.getBytes());
+			String md5 = new BigInteger(1, md.digest()).toString(16); // Hash value
+			if (dbFunction.loginDB(dbConnector, username, md5)) {
+				UploadFrame uploadFrame = new UploadFrame();
+				uploadFrame.setEnabled(true);
+				uploadFrame.setVisible(true);
+				LoginFrame.closeFrame(LoginFrame.getFrames());
+			}
+			else {
+				JOptionPane.showMessageDialog(null,"Invalid Credentials");
+				LoginFrame.username.setText("");
+				LoginFrame.pwdPassword.setText("");
+			}
+		} catch (NoSuchAlgorithmException e) {
+			log.fatal("MD5 Error");
+			JOptionPane.showMessageDialog(null,"Problem found during login");
+			e.printStackTrace();
+		}
+	}
+	
 	public void parseCSVFile(@NonNull String path, @NonNull char separator, @NonNull char quote) {
 		try {
 			log.info("Parsing the CSV File in order to proceed with the actions.");
