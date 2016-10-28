@@ -231,20 +231,41 @@ public class AuxFunctions {
 	}
 
 	@SuppressWarnings("deprecation")
-	public void registerDB() throws Exception {
-		User newUser = new User();
-		newUser.setFirstName(RegisterFrame.firstNameField.getText());
-		newUser.setLastName(RegisterFrame.lastNameField.getText());
-		newUser.setUsername(RegisterFrame.usernameField.getText());
-		newUser.setPassword(RegisterFrame.pwdNewpassword.getText());
-		newUser.setEmail(RegisterFrame.emailField.getText());
-		newUser.setPhoneNumber(RegisterFrame.phoneNumberField.getText());
+	public void registerDB() {
+		try {
+			User newUser = new User();
+			newUser.setFirstName(RegisterFrame.firstNameField.getText());
+			newUser.setLastName(RegisterFrame.lastNameField.getText());
+			newUser.setUsername(RegisterFrame.usernameField.getText());
+			newUser.setPassword(RegisterFrame.pwdNewpassword.getText());
+			newUser.setEmail(RegisterFrame.emailField.getText());
+			newUser.setPhoneNumber(RegisterFrame.phoneNumberField.getText());
 
-		UserDAO userDAO = new UserDAO();
-		if (userDAO.insert(newUser)) {
-			
+			UserDAO userDAO;
+
+			userDAO = new UserDAO();
+			userDAO.insert(newUser);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		else {
+
+	}
+
+	public boolean findByUsername() {
+		try {
+			UserDAO userDAO = new UserDAO();
+			if (userDAO.checkUser(RegisterFrame.usernameField.getText()) == true) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		return false;
+
 	}
 }
