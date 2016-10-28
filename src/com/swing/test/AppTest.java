@@ -16,7 +16,14 @@ import junit.framework.*;
 public class AppTest extends TestCase {
  
 	public void testApp() throws Exception {
-		User user = new User("firstuser", "rr", "francisco", "rebelo", "fr@fr.com", "912149893");
+		User user = new User();
+		user.setId(2);
+		user.setFirstName("francisco");
+		user.setLastName("rebelo2");
+		user.setPassword("rebelo");
+		user.setUsername("francisco");
+		user.setEmail("fr@lol.com");
+		user.setPhoneNumber("6249524");
 		UserDAO userDAO = new UserDAO();
 		userDAO.insert(user);
 	}
