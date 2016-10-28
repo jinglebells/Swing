@@ -107,6 +107,15 @@ public class LoginFrame extends JFrame {
 				aux.login(username.getText(), pwdPassword.getText());
 			}
 		});
+		//Register Button
+		btnRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegisterFrame registerFrame = new RegisterFrame();
+				registerFrame.setEnabled(true);
+				registerFrame.setVisible(true);
+				closeFrame(LoginFrame.getFrames());
+			}
+		});
 	}
 
 	public static void closeFrame(Frame[] frames) {
