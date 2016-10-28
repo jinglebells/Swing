@@ -36,22 +36,22 @@ public class AuxFunctions {
 
 	public void login(@NonNull String username, @NonNull String password) throws NoSuchAlgorithmException, HeadlessException, SQLException {
 		log.info("Trying to login.");
-			dbConnector = dbConnection.connectionDB();
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			md.update(password.getBytes());
-			String md5 = new BigInteger(1, md.digest()).toString(16); // Hash value
-			if (dbFunction.loginDB(dbConnector, username, md5)) {
-				JOptionPane.showMessageDialog(null,"Login Successfull");
-				UploadFrame uploadFrame = new UploadFrame();
-				uploadFrame.setEnabled(true);
-				uploadFrame.setVisible(true);
-				LoginFrame.closeFrame(LoginFrame.getFrames());
-			}
-			else {
-				JOptionPane.showMessageDialog(null,"Invalid Credentials");
-				LoginFrame.username.setText("");
-				LoginFrame.pwdPassword.setText("");
-			}
+		dbConnector = dbConnection.connectionDB();
+		MessageDigest md = MessageDigest.getInstance("MD5");
+		md.update(password.getBytes());
+		String md5 = new BigInteger(1, md.digest()).toString(16); // Hash value
+		if (dbFunction.loginDB(dbConnector, username, md5)) {
+			JOptionPane.showMessageDialog(null,"Login Successfull");
+			UploadFrame uploadFrame = new UploadFrame();
+			uploadFrame.setEnabled(true);
+			uploadFrame.setVisible(true);
+			LoginFrame.closeFrame(LoginFrame.getFrames());
+		}
+		else {
+			JOptionPane.showMessageDialog(null,"Invalid Credentials");
+			LoginFrame.username.setText("");
+			LoginFrame.pwdPassword.setText("");
+		}
 	}
 
 	public void parseCSVFile(@NonNull String path, @NonNull char separator, @NonNull char quote) {
@@ -100,13 +100,13 @@ public class AuxFunctions {
 
 	public void readFile(@NonNull String path) throws IOException {
 		FileReader reader = null;
-			log.info("Processing the file...");
-			reader = new FileReader(path);
-			log.info("Pasting file in textArea...");
-			UploadFrame.textArea.read(reader, null);
-			UploadFrame.btnUpload.setEnabled(true);
-			UploadFrame.btnProcess.setEnabled(false);
-			UploadFrame.btnClear.setEnabled(true);
+		log.info("Processing the file...");
+		reader = new FileReader(path);
+		log.info("Pasting file in textArea...");
+		UploadFrame.textArea.read(reader, null);
+		UploadFrame.btnUpload.setEnabled(true);
+		UploadFrame.btnProcess.setEnabled(false);
+		UploadFrame.btnClear.setEnabled(true);
 	}
 
 	public void enableButtons(@NonNull String process) {
@@ -214,27 +214,29 @@ public class AuxFunctions {
 
 	@SuppressWarnings("deprecation")
 	public void registerDB() throws Exception {
-			User newUser = new User();
-			newUser.setFirstName(RegisterFrame.firstNameField.getText());
-			newUser.setLastName(RegisterFrame.lastNameField.getText());
-			newUser.setUsername(RegisterFrame.usernameField.getText());
-			newUser.setPassword(RegisterFrame.pwdNewpassword.getText());
-			newUser.setEmail(RegisterFrame.emailField.getText());
-			newUser.setPhoneNumber(RegisterFrame.phoneNumberField.getText());
+		log.debug("Going to register teh user in DB.");
+		User newUser = new User();
+		newUser.setFirstName(RegisterFrame.firstNameField.getText());
+		newUser.setLastName(RegisterFrame.lastNameField.getText());
+		newUser.setUsername(RegisterFrame.usernameField.getText());
+		newUser.setPassword(RegisterFrame.pwdNewpassword.getText());
+		newUser.setEmail(RegisterFrame.emailField.getText());
+		newUser.setPhoneNumber(RegisterFrame.phoneNumberField.getText());
 
-			UserDAO userDAO = new UserDAO();
-			userDAO.insert(newUser);
+		UserDAO userDAO = new UserDAO();
+		userDAO.insert(newUser);
 
 	}
 
 	public boolean findByUsername() throws Exception {
-			UserDAO userDAO = new UserDAO();
-			if (userDAO.checkUser(RegisterFrame.usernameField.getText()) == true) {
-				return true;
-			}
-			else {
-				return false;
-			}
+		log.debug("Finding the User by Username.");
+		UserDAO userDAO = new UserDAO();
+		if (userDAO.checkUser(RegisterFrame.usernameField.getText()) == true) {
+			return true;
+		}
+		else {
+			return false;
+		}
 
 	}
 }

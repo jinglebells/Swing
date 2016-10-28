@@ -1,19 +1,21 @@
 package com.swing.gui;
 
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.NumberFormat;
+
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.text.NumberFormatter;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.Frame;
-import java.awt.event.ActionEvent;
 
 public class RegisterFrame extends JFrame{
 
@@ -26,7 +28,7 @@ public class RegisterFrame extends JFrame{
 	static JTextField firstNameField;
 	static JTextField lastNameField;
 	static JTextField emailField;
-	static JTextField phoneNumberField;
+	static JFormattedTextField phoneNumberField;
 
 	JButton btnRegister;
 	JButton btnCheck;
@@ -106,7 +108,16 @@ public class RegisterFrame extends JFrame{
 		getContentPane().add(emailField);
 		emailField.setColumns(10);
 		//PhoneNumber
-		phoneNumberField = new JTextField();
+
+		NumberFormat format = NumberFormat.getInstance();
+		NumberFormatter formatter = new NumberFormatter(format);
+		formatter.setValueClass(Integer.class);
+		formatter.setMinimum(0);
+		formatter.setMaximum(Integer.MAX_VALUE);
+		formatter.setAllowsInvalid(false);
+		// If you want the value to be committed on each keystroke instead of focus lost
+		formatter.setCommitsOnValidEdit(true);
+		phoneNumberField = new JFormattedTextField(formatter);
 		phoneNumberField.setBounds(110, 145, 90, 20);
 		getContentPane().add(phoneNumberField);
 		phoneNumberField.setColumns(10);
@@ -121,22 +132,48 @@ public class RegisterFrame extends JFrame{
 		btnCheck = new JButton("Check");
 		btnCheck.setBounds(230, 19, 89, 23);
 		getContentPane().add(btnCheck);
-		
+
 
 		//Actions
 		//Button Register
 		btnRegister.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-				try {
-					aux.registerDB();
-					UploadFrame uploadFrame = new UploadFrame();
-					uploadFrame.setEnabled(true);
-					uploadFrame.setVisible(true);
-					closeFrame(RegisterFrame.getFrames());
-					JOptionPane.showMessageDialog(null,"User: " + usernameField.getText() + " was created.");
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null,"Error during registering your user. Please try again later.");
-					e1.printStackTrace();
+				log.debug("Button Register pressed.");
+				log.debug("Checking if all fields are completed.");
+				if ((usernameField.getText() != null && !usernameField.getText().isEmpty()) &&
+						(pwdNewpassword.getText() != null && !pwdNewpassword.getText().isEmpty()) &&
+						(firstNameField.getText() != null && !firstNameField.getText().isEmpty()) &&
+						(lastNameField.getText() != null && !lastNameField.getText().isEmpty()) &&
+						(emailField.getText() != null && !emailField.getText().isEmpty()) &&
+						(phoneNumberField.getText().toString() != null && !phoneNumberField.getText().isEmpty())) {
+					if (!emailField.getText().contains("@")) {
+						log.debug("Checking if email contains the @.");
+						JOptionPane.showMessageDialog(null,"You must insert a valid email.");
+						return;
+					}
+
+					try {
+						if (aux.findByUsername() ==true) {
+							log.debug("Checking the username before committing in DB.");
+							JOptionPane.showMessageDialog(null,"This username is already in use.");
+						}
+						else {
+							aux.registerDB();
+							UploadFrame uploadFrame = new UploadFrame();
+							uploadFrame.setEnabled(true);
+							uploadFrame.setVisible(true);
+							closeFrame(RegisterFrame.getFrames());
+							JOptionPane.showMessageDialog(null,"User: " + usernameField.getText() + " was created.");
+						}
+
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(null,"Error during registering your user. Please try again later.");
+						e1.printStackTrace();
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(null,"You must fill all fields.");
 				}
 			}
 		});
@@ -144,14 +181,15 @@ public class RegisterFrame extends JFrame{
 		btnCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-				if (aux.findByUsername() ==true) {
-					//label = username already existing
-					lblCheckuser.setText("Username already exists.");
-				}
-				else {
-					//label = username can be used
-					lblCheckuser.setText("Username can be used.");
-				}
+					log.debug("Button Check pressed.");
+					if (aux.findByUsername() ==true) {
+						//label = username already existing
+						lblCheckuser.setText("Username already exists.");
+					}
+					else {
+						//label = username can be used
+						lblCheckuser.setText("Username can be used.");
+					}
 				} catch (Exception e2) {
 					JOptionPane.showMessageDialog(null,"Error checking username. Please try again later.");
 					e2.printStackTrace();
@@ -161,6 +199,7 @@ public class RegisterFrame extends JFrame{
 	}
 
 	public static void closeFrame(Frame[] frames) {
+		log.debug("Closing Frames.");
 		for (Frame frame : frames) {
 			if (frame.getName().equalsIgnoreCase("frame0")) {
 				frame.dispose();

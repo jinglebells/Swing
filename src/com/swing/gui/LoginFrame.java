@@ -109,6 +109,7 @@ public class LoginFrame extends JFrame {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				try {
+					log.debug("Button Login pressed.");
 					aux.login(username.getText(), pwdPassword.getText());
 				} catch (HeadlessException | NoSuchAlgorithmException | SQLException e1) {
 					JOptionPane.showMessageDialog(null,"Error during login. Please try again later.");
@@ -116,9 +117,11 @@ public class LoginFrame extends JFrame {
 				}
 			}
 		});
+		
 		//Register Button
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				log.debug("Button Register pressed.");
 				RegisterFrame registerFrame = new RegisterFrame();
 				registerFrame.setEnabled(true);
 				registerFrame.setVisible(true);
@@ -128,6 +131,7 @@ public class LoginFrame extends JFrame {
 	}
 
 	public static void closeFrame(Frame[] frames) {
+		log.debug("Closing frames.");
 		for (Frame frame : frames) {
 			if (frame.getName().equalsIgnoreCase("frame0")) {
 				frame.dispose();

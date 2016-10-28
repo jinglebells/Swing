@@ -206,6 +206,7 @@ public class UploadFrame extends JFrame {
 		//Button Upload Actions
 		btnUpload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				log.debug("Button Upload pressed.");
 				JFileChooser c = new JFileChooser();
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files", "csv");
 				c.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -224,6 +225,7 @@ public class UploadFrame extends JFrame {
 		btnProcess.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					log.debug("Button Process pressed.");
 					aux.readFile(pathField.getText());
 				} catch (IOException e1) {
 					JOptionPane.showMessageDialog(null,"Error occurred when processing the file.");
@@ -240,6 +242,7 @@ public class UploadFrame extends JFrame {
 		//Button Clear Actions
 		btnClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				log.debug("Button Clear pressed.");
 				process = "clear";
 				aux.enableButtons(process);
 				textArea.setText("");
@@ -255,6 +258,7 @@ public class UploadFrame extends JFrame {
 		//Button Save in DB Actions
 		btnSaveInDb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				log.debug("Button Save in DB pressed.");
 				aux.parseCSVFile(pathField.getText(), CSV_SEPARATOR, CSV_QUOTE);
 				process = "save";
 				aux.enableButtons(process);
@@ -267,6 +271,7 @@ public class UploadFrame extends JFrame {
 		btnShowAllEmployees.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					log.debug("Button Show All pressed.");
 					aux.showAllInfo();
 					process = "showAll";
 					aux.enableButtons(process);
@@ -280,6 +285,7 @@ public class UploadFrame extends JFrame {
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					log.debug("Button Delete pressed.");
 					aux.deleteByID();
 				} catch (SQLException e1) {
 					JOptionPane.showMessageDialog(null,"Error during deleting an employee. Please try again later.");

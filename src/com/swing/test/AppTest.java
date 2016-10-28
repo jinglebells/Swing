@@ -1,13 +1,9 @@
 package com.swing.test;
  
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-
 import com.swing.dao.UserDAO;
 import com.swing.entity.User;
 
-import junit.framework.*;
+import junit.framework.TestCase;
  
  
 /**
