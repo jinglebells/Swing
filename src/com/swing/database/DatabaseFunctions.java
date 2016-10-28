@@ -19,9 +19,8 @@ public class DatabaseFunctions {
 
 	private static final Logger log = LogManager.getLogger(DatabaseFunctions.class);
 
-	public boolean loginDB(@NonNull Connection c, String username, String password) {
+	public boolean loginDB(@NonNull Connection c, String username, String password) throws SQLException {
 		ResultSet rs = null;
-		try {
 			statement = c.createStatement();
 			String sql = "select id from data.users where username='" + username + "' and password='" + password + "';";
 			rs = statement.executeQuery(sql);
@@ -33,13 +32,6 @@ public class DatabaseFunctions {
 				log.info("Login Successfull.");
 				return true;
 			}
-			
-		} catch (SQLException e) {
-			log.fatal("SQL Exception was caught while searching for the user information.");
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null,"Error occured when processing the file.");
-		}
-		return true; 
 	}
 	
 	public void insertDB(@NonNull Connection c, @NonNull String[] information) throws SQLException {
@@ -159,20 +151,13 @@ public class DatabaseFunctions {
 		return rs;
 	}
 
-	public void removeById(@NonNull Connection c, @NonNull Object object) {
+	public void removeById(@NonNull Connection c, @NonNull Object object) throws SQLException {
 		log.debug("Getting the id to delete by ComboBox");
-		try {
 			statement = c.createStatement();
 			String sql = "delete from data.info where id="+object.toString();
 			statement.executeUpdate(sql);
 			c.commit();
 			log.info("The employee with id=" + object.toString() + " was deleted.");
-
-		} catch (SQLException e) {
-			log.fatal("SQL Exception while getting the id for removal.");
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null,"Error occured when processing the file.");
-		}
 	}
 
 	public void modifyDB(@NonNull Connection c,@NonNull String[] nextLine) {

@@ -3,12 +3,16 @@ package com.swing.gui;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Frame;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -104,7 +108,21 @@ public class LoginFrame extends JFrame {
 		btnLogin.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-				aux.login(username.getText(), pwdPassword.getText());
+				try {
+					aux.login(username.getText(), pwdPassword.getText());
+				} catch (HeadlessException | NoSuchAlgorithmException | SQLException e1) {
+					JOptionPane.showMessageDialog(null,"Error during login. Please try again later.");
+					e1.printStackTrace();
+				}
+			}
+		});
+		//Register Button
+		btnRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegisterFrame registerFrame = new RegisterFrame();
+				registerFrame.setEnabled(true);
+				registerFrame.setVisible(true);
+				closeFrame(LoginFrame.getFrames());
 			}
 		});
 	}
