@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 
 public class RegisterFrame extends JFrame{
@@ -118,16 +119,25 @@ public class RegisterFrame extends JFrame{
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if (aux.registerDB()) {
-						JOptionPane.showMessageDialog(null,"User: " + usernameField.getText() + " was created.");
-					}
-					else {
-						JOptionPane.showMessageDialog(null,"Error during registering your user. Please try again later.");
-					}
+					aux.registerDB();
+					UploadFrame uploadFrame = new UploadFrame();
+					uploadFrame.setEnabled(true);
+					uploadFrame.setVisible(true);
+					closeFrame(RegisterFrame.getFrames());
+					JOptionPane.showMessageDialog(null,"User: " + usernameField.getText() + " was created.");
 				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null,"Error during registering your user. Please try again later.");
 					e1.printStackTrace();
 				}
 			}
 		});
+	}
+	
+	public static void closeFrame(Frame[] frames) {
+		for (Frame frame : frames) {
+			if (frame.getName().equalsIgnoreCase("frame0")) {
+				frame.dispose();
+			}
+		}
 	}
 }
