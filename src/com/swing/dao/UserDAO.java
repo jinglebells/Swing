@@ -14,15 +14,21 @@ public class UserDAO {
 		Configuration cfg = new Configuration();
 		cfg.configure("hibernate.cfg.xml");
 		cfg.addClass(User.class);
- 		factory = cfg.buildSessionFactory();
+		factory = cfg.buildSessionFactory();
 	}
-	
-	public void insert(User user) throws Exception{
+
+	public boolean insert(User user) throws Exception{
 		Session session = factory.openSession();
 		session.beginTransaction();
-     	session.save(user);
-     	session.getTransaction().commit();
-     	session.flush();
-     	session.close();
+		session.save(user);
+		session.getTransaction().commit();
+		session.flush();
+		session.close();
+		if (session.getTransaction().wasCommitted()) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }
