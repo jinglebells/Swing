@@ -1,5 +1,6 @@
 package com.swing.dao;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -25,6 +26,18 @@ public class UserDAO {
 		session.flush();
 		session.close();
 		if (session.getTransaction().wasCommitted()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	public boolean checkUser(String username) {
+		Session session = factory.openSession();
+		Query query=session.createQuery("from User where username like:a");
+		query.setString("a",username);
+		if (!query.list().isEmpty()) {
 			return true;
 		}
 		else {
