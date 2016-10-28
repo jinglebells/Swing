@@ -279,7 +279,12 @@ public class UploadFrame extends JFrame {
 		//Button delete by ID
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				aux.deleteByID();
+				try {
+					aux.deleteByID();
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(null,"Error during deleting an employee. Please try again later.");
+					e1.printStackTrace();
+				}
 			}
 		});
 	}

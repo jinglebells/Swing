@@ -143,6 +143,7 @@ public class RegisterFrame extends JFrame{
 		//Button Check
 		btnCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
 				if (aux.findByUsername() ==true) {
 					//label = username already existing
 					lblCheckuser.setText("Username already exists.");
@@ -150,6 +151,10 @@ public class RegisterFrame extends JFrame{
 				else {
 					//label = username can be used
 					lblCheckuser.setText("Username can be used.");
+				}
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null,"Error checking username. Please try again later.");
+					e2.printStackTrace();
 				}
 			}
 		});
