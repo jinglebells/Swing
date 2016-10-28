@@ -17,7 +17,6 @@ public class AppTest extends TestCase {
  
 	public void testApp() throws Exception {
 		User user = new User();
-		user.setId(2);
 		user.setFirstName("francisco");
 		user.setLastName("rebelo2");
 		user.setPassword("rebelo");
