@@ -19,11 +19,11 @@
         <property name="show_sql">true</property>
 
         <!-- Drop and re-create all database on startup -->
-        <property name="hibernate.hbm2ddl.auto">create-drop</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
 
         <!-- Annotated entity classes -->
         <!-- <mapping class="com.swing.entity.User"/> -->
-        <mapping resource="User.hbm.xml"/>
+        <!--<mapping resource="User.hbm.xml"/>-->
         
     </session-factory>
 </hibernate-configuration>
