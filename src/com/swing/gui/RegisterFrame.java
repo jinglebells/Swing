@@ -3,6 +3,7 @@ package com.swing.gui;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -36,12 +37,15 @@ public class RegisterFrame extends JFrame{
 	JLabel lblLastName;
 	JLabel lblEmail;
 	JLabel lblPhoneNumber;
+	JLabel lblCheckuser;
 
 	AuxFunctions aux = new AuxFunctions();
 
 	public RegisterFrame() {
 
 		log.debug("Adding Content Register to GUI...");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 379, 258);
 		getContentPane().setLayout(null);
 
 		//Labels
@@ -70,6 +74,10 @@ public class RegisterFrame extends JFrame{
 		lblPhoneNumber = new JLabel("Phone Number:");
 		lblPhoneNumber.setBounds(10, 148, 90, 14);
 		getContentPane().add(lblPhoneNumber);
+		//CheckUser
+		lblCheckuser = new JLabel("");
+		lblCheckuser.setBounds(210, 48, 179, 14);
+		getContentPane().add(lblCheckuser);
 
 		//TextFields
 		log.debug("Adding Register textfields to GUI...");
@@ -111,8 +119,9 @@ public class RegisterFrame extends JFrame{
 		getContentPane().add(btnRegister);
 		//Check
 		btnCheck = new JButton("Check");
-		btnCheck.setBounds(210, 19, 89, 23);
+		btnCheck.setBounds(230, 19, 89, 23);
 		getContentPane().add(btnCheck);
+		
 
 		//Actions
 		//Button Register
@@ -131,8 +140,21 @@ public class RegisterFrame extends JFrame{
 				}
 			}
 		});
+		//Button Check
+		btnCheck.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (aux.findByUsername() ==true) {
+					//label = username already existing
+					lblCheckuser.setText("Username already exists.");
+				}
+				else {
+					//label = username can be used
+					lblCheckuser.setText("Username can be used.");
+				}
+			}
+		});
 	}
-	
+
 	public static void closeFrame(Frame[] frames) {
 		for (Frame frame : frames) {
 			if (frame.getName().equalsIgnoreCase("frame0")) {
