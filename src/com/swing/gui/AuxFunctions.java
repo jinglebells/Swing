@@ -17,8 +17,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.opencsv.CSVReader;
+import com.swing.dao.UserDAO;
 import com.swing.database.DatabaseConnection;
 import com.swing.database.DatabaseFunctions;
+import com.swing.entity.User;
 
 import lombok.NonNull;
 
@@ -55,7 +57,7 @@ public class AuxFunctions {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void parseCSVFile(@NonNull String path, @NonNull char separator, @NonNull char quote) {
 		try {
 			log.info("Parsing the CSV File in order to proceed with the actions.");
@@ -226,5 +228,24 @@ public class AuxFunctions {
 		dbConnector = dbConnection.connectionDB();
 		dbFunction.removeById(dbConnector, UploadFrame.comboBox.getSelectedItem());
 		fillComboBox();
+	}
+
+	@SuppressWarnings("deprecation")
+	public boolean registerDB() throws Exception {
+		User newUser = new User();
+		newUser.setFirstName(RegisterFrame.firstNameField.getText());
+		newUser.setLastName(RegisterFrame.lastNameField.getText());
+		newUser.setUsername(RegisterFrame.usernameField.getText());
+		newUser.setPassword(RegisterFrame.pwdNewpassword.getText());
+		newUser.setEmail(RegisterFrame.emailField.getText());
+		newUser.setPhoneNumber(RegisterFrame.phoneNumberField.getText());
+
+		UserDAO userDAO = new UserDAO();
+		if (userDAO.insert(newUser)) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }
