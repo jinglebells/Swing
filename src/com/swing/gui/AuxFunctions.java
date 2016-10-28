@@ -231,7 +231,7 @@ public class AuxFunctions {
 	}
 
 	@SuppressWarnings("deprecation")
-	public boolean registerDB() throws Exception {
+	public void registerDB() throws Exception {
 		User newUser = new User();
 		newUser.setFirstName(RegisterFrame.firstNameField.getText());
 		newUser.setLastName(RegisterFrame.lastNameField.getText());
@@ -242,10 +242,9 @@ public class AuxFunctions {
 
 		UserDAO userDAO = new UserDAO();
 		if (userDAO.insert(newUser)) {
-			return true;
+			
 		}
 		else {
-			return false;
 		}
 	}
 }
