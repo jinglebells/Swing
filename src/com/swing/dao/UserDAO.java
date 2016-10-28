@@ -19,7 +19,9 @@ public class UserDAO {
 	
 	public void insert(User user) throws Exception{
 		Session session = factory.openSession();
+		session.beginTransaction();
      	session.save(user);
+     	session.getTransaction().commit();
      	session.flush();
      	session.close();
 	}
