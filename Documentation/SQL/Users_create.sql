@@ -6,7 +6,8 @@ CREATE TABLE data.users (
     last_name        varchar(200) NOT NULL,
     email         varchar(200) NOT NULL,
     phone_number  varchar(200) NOT NULL,
-    CONSTRAINT users_pk PRIMARY KEY(id)
+    CONSTRAINT users_pk PRIMARY KEY(id),
+    CONSTRAINT users_unique UNIQUE(username)
 );
 
 INSERT INTO data.users(

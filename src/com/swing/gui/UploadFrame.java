@@ -1,15 +1,20 @@
 package com.swing.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -31,6 +36,7 @@ import javax.swing.table.JTableHeader;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import java.awt.Color;
 
 public class UploadFrame extends JFrame {
 
@@ -40,20 +46,11 @@ public class UploadFrame extends JFrame {
 
 	static JPanel contentUpload;
 	JTextField pathField;
-	static JTextArea textArea;
-	static JTable table;
 
 	static JButton btnProcess;
 	static JButton btnUpload;
 	static JButton btnClear;
-	static JButton btnSaveInDb;
-	static JButton btnShowAllEmployees;
-	JButton btnDelete;
-
-	JLabel lblYourFileContents;
-	JLabel lblDeleteById;
-	
-	static JComboBox<Object> comboBox;
+	JPanel imgPanel;
 
 	private char CSV_SEPARATOR = ',';
 	private char CSV_QUOTE = '\"';
@@ -62,7 +59,7 @@ public class UploadFrame extends JFrame {
 
 	AuxFunctions aux = new AuxFunctions();
 
-	
+
 	/**
 	 * Launch the application.
 	 */
@@ -78,7 +75,7 @@ public class UploadFrame extends JFrame {
 			}
 		});
 	}
-	
+
 	/**
 	 * Create the frame.
 	 */
@@ -91,7 +88,7 @@ public class UploadFrame extends JFrame {
 		setContentPane(contentUpload);
 		contentUpload.setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 702, 691);
+		setBounds(100, 100, 702, 512);
 		ImageIcon webIcon = new ImageIcon("resources\\mtrust.png");
 		setIconImage(webIcon.getImage());
 
@@ -115,23 +112,6 @@ public class UploadFrame extends JFrame {
 		btnClear.setBounds(94, 39, 89, 23);
 		btnClear.setEnabled(false);
 		contentUpload.add(btnClear);
-		//Save in DB Button
-		log.debug("Adding Save in DB Button to GUI...");
-		btnSaveInDb = new JButton("Commit Actions in DB");
-		btnSaveInDb.setBounds(5, 225, 165, 23);
-		btnSaveInDb.setEnabled(false);
-		contentUpload.add(btnSaveInDb);
-		//Show All Info Button
-		log.debug("Adding Show All Info Button to GUI...");
-		btnShowAllEmployees = new JButton("Show All Employes");
-		btnShowAllEmployees.setBounds(5, 259, 165, 23);
-		btnShowAllEmployees.setEnabled(true);
-		contentUpload.add(btnShowAllEmployees);
-		//Delete by ID Button
-		btnDelete = new JButton("Delete");
-		btnDelete.setBounds(112, 436, 89, 23);
-		btnDelete.setEnabled(true);
-		contentUpload.add(btnDelete);
 
 		//TextField - Path
 		log.debug("Adding Path Field to GUI...");
@@ -141,43 +121,13 @@ public class UploadFrame extends JFrame {
 		pathField.setColumns(20);
 		contentUpload.add(pathField);
 
-		//JTextArea
-		log.debug("Adding Text Area to GUI...");
-		textArea = new JTextArea();
-		textArea.setLineWrap(true);
-		JScrollPane scroll = new JScrollPane (textArea, 
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scroll.setBounds(5, 110, 661, 104);
-		contentUpload.add(scroll);
+		//Image Panel
+		imgPanel = new JPanel();
+		imgPanel.setBackground(Color.WHITE);
+		imgPanel.setBounds(104, 74, 423, 306);
+		contentUpload.add(imgPanel);
 
-		//Labels
-		//YourContents
-		log.debug("Adding Label to GUI...");
-		lblYourFileContents = new JLabel("Your File Contents");
-		lblYourFileContents.setBounds(5, 85, 89, 14);
-		contentUpload.add(lblYourFileContents);
-		//DeleteByID
-		lblDeleteById = new JLabel("Delete by ID");
-		lblDeleteById.setBounds(5, 440, 66, 14);
-		contentUpload.add(lblDeleteById);
 
-		//Table
-		table = new JTable();
-		JTableHeader header = table.getTableHeader();
-		header.setFont(new Font("Dialog", Font.BOLD, 14));
-		JScrollPane js=new JScrollPane(table,
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		js.setVisible(true);
-		js.setBounds(5, 303, 661, 116);
-		aux.setModelTable();
-		contentUpload.add(js);
-		
-		//ComboBox
-		comboBox = new JComboBox<Object>();
-		comboBox.setBounds(76, 437, 28, 20);
-		aux.fillComboBox();
-		contentUpload.add(comboBox);
-		
 		//MenuBar
 		log.debug("Adding Menu Bar to GUI...");
 		JMenuBar menubar = new JMenuBar();
@@ -208,7 +158,7 @@ public class UploadFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				log.debug("Button Upload pressed.");
 				JFileChooser c = new JFileChooser();
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files", "csv");
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpg");
 				c.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				c.setFileFilter(filter);
 				int rVal = c.showOpenDialog(UploadFrame.this);
@@ -224,18 +174,23 @@ public class UploadFrame extends JFrame {
 		//Button Process Actions
 		btnProcess.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				log.debug("Button Process pressed.");
+				//Save file in a new path
 				try {
-					log.debug("Button Process pressed.");
-					aux.readFile(pathField.getText());
-				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(null,"Error occurred when processing the file.");
-					log.fatal("Error in reading the file");
-					UploadFrame.btnProcess.setEnabled(false);
-					UploadFrame.btnClear.setEnabled(true);
+					aux.saveFile(pathField.getText());
+                    BufferedImage image = ImageIO.read(new File(pathField.getText()));
+                    BufferedImage newImg = resizeImage(image, imgPanel.getWidth(), imgPanel.getHeight(), 1);
+                    ImageIcon icon = new ImageIcon(newImg);
+                    JLabel label = new JLabel();
+                    imgPanel.add(label);
+                    label.setIcon(icon);
+					process = "process";
+					aux.enableButtons(process);
+				} catch (Exception e1) {
+					log.fatal("Errur during save file in DB.");
+					JOptionPane.showMessageDialog(null,"Error during processing file.");
 					e1.printStackTrace();
 				}
-				process = "process";
-				aux.enableButtons(process);
 			}
 		});
 
@@ -245,53 +200,16 @@ public class UploadFrame extends JFrame {
 				log.debug("Button Clear pressed.");
 				process = "clear";
 				aux.enableButtons(process);
-				textArea.setText("");
 				pathField.setText("");
-				for (int i = 0; i < table.getRowCount(); i++){
-					for(int j = 0; j < table.getColumnCount(); j++) {
-						table.setValueAt("", i, j);
-					}
-				}
-			}
-		});
-
-		//Button Save in DB Actions
-		btnSaveInDb.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				log.debug("Button Save in DB pressed.");
-				aux.parseCSVFile(pathField.getText(), CSV_SEPARATOR, CSV_QUOTE);
-				process = "save";
-				aux.enableButtons(process);
-				textArea.setText("");
-				pathField.setText("");
-			}
-		});
-
-		//Button ShowAll Actions
-		btnShowAllEmployees.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					log.debug("Button Show All pressed.");
-					aux.showAllInfo();
-					process = "showAll";
-					aux.enableButtons(process);
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		
-		//Button delete by ID
-		btnDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					log.debug("Button Delete pressed.");
-					aux.deleteByID();
-				} catch (SQLException e1) {
-					JOptionPane.showMessageDialog(null,"Error during deleting an employee. Please try again later.");
-					e1.printStackTrace();
-				}
+				imgPanel.setBackground(Color.WHITE);
 			}
 		});
 	}
+	private BufferedImage resizeImage(BufferedImage originalImage, int width, int height, int type) throws IOException {  
+        BufferedImage resizedImage = new BufferedImage(width, height, type);  
+        Graphics2D g = resizedImage.createGraphics();  
+        g.drawImage(originalImage, 0, 0, width, height, null);  
+        g.dispose();  
+        return resizedImage;  
+    }  
 }
