@@ -1,28 +1,27 @@
 package com.swing.gui;
 
 import java.awt.HeadlessException;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.math.BigInteger;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Set;
 
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.opencsv.CSVReader;
 import com.swing.dao.FileDAO;
 import com.swing.dao.ProductDAO;
 import com.swing.dao.UserDAO;
@@ -139,5 +138,24 @@ public class AuxFunctions {
 		for ( String s : products) {
 			UploadFrame.choiceProduct.add(s);
 		}
+	}
+
+	public void sendPostRequest(String gender, String product, String height) throws Exception {
+		log.debug("Sending the message via POST.");
+		URL url = new URL("http://127.0.0.1:8080");
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("POST");
+		conn.setDoOutput(true);
+		OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
+		writer.write("gender="+gender+"&product="+product+"&height="+height);
+		writer.flush();
+		log.debug(conn.getOutputStream().toString());
+		writer.close();
+		int responseCode = conn.getResponseCode();
+		log.debug("Sending 'POST' request to URL : " + url);
+		log.debug("Response Code : " + responseCode);
+		log.debug("Response Message : " + conn.getResponseMessage());
+		log.debug("Response method: " + conn.getRequestMethod());
+
 	}
 }

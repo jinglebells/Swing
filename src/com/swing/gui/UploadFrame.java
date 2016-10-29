@@ -243,7 +243,21 @@ public class UploadFrame extends JFrame {
 				imgPanel.setBackground(Color.WHITE);
 			}
 		});
+		//Button Measure Action
+		btnMeasure.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				log.debug("Button Measure pressed.");
+				try {
+					aux.sendPostRequest(choiceGender.getSelectedItem(), choiceProduct.getSelectedItem(),txtHeighttext.getText());
+				} catch (Exception e1) {
+					log.fatal("Exception when trying to send POST Request");
+					JOptionPane.showMessageDialog(null,"Error sending the request. Please try again.");
+					e1.printStackTrace();
+				}
+			}
+		});
 	}
+	
 	private BufferedImage resizeImage(BufferedImage originalImage, int width, int height, int type) throws IOException {  
 		BufferedImage resizedImage = new BufferedImage(width, height, type);  
 		Graphics2D g = resizedImage.createGraphics();  
