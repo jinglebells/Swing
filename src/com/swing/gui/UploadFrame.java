@@ -37,6 +37,8 @@ import javax.swing.table.JTableHeader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.awt.Color;
+import java.awt.Choice;
+import java.awt.Label;
 
 public class UploadFrame extends JFrame {
 
@@ -51,6 +53,8 @@ public class UploadFrame extends JFrame {
 	static JButton btnUpload;
 	static JButton btnClear;
 	JPanel imgPanel;
+	
+	static Choice choiceProduct;
 
 	private char CSV_SEPARATOR = ',';
 	private char CSV_QUOTE = '\"';
@@ -58,6 +62,7 @@ public class UploadFrame extends JFrame {
 	String process;
 
 	AuxFunctions aux = new AuxFunctions();
+	private Choice choiceGender;
 
 
 	/**
@@ -126,6 +131,30 @@ public class UploadFrame extends JFrame {
 		imgPanel.setBackground(Color.WHITE);
 		imgPanel.setBounds(104, 74, 423, 306);
 		contentUpload.add(imgPanel);
+		
+		JLabel askUser = new JLabel("What do you want to Measure?");
+		askUser.setBounds(31, 412, 271, 15);
+		contentUpload.add(askUser);
+		
+		choiceProduct = new Choice();
+		choiceProduct.setBounds(336, 406, 133, 21);
+		try {
+			aux.getProducts();
+		} catch (Exception e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		contentUpload.add(choiceProduct);
+		
+		JLabel lblGender = new JLabel("Gender?");
+		lblGender.setBounds(31, 439, 70, 15);
+		contentUpload.add(lblGender);
+		
+		choiceGender = new Choice();
+		choiceGender.setBounds(104, 433, 122, 21);
+		choiceGender.add("Male");
+		choiceGender.add("Female");
+		contentUpload.add(choiceGender);
 
 
 		//MenuBar
@@ -187,7 +216,7 @@ public class UploadFrame extends JFrame {
 					process = "process";
 					aux.enableButtons(process);
 				} catch (Exception e1) {
-					log.fatal("Errur during save file in DB.");
+					log.fatal("Error during save file in DB.");
 					JOptionPane.showMessageDialog(null,"Error during processing file.");
 					e1.printStackTrace();
 				}

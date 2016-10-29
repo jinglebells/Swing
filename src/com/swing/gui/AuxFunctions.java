@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -22,6 +24,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.opencsv.CSVReader;
 import com.swing.dao.FileDAO;
+import com.swing.dao.ProductDAO;
 import com.swing.dao.UserDAO;
 import com.swing.database.DatabaseConnection;
 import com.swing.database.DatabaseFunctions;
@@ -78,7 +81,7 @@ public class AuxFunctions {
 			UploadFrame.btnProcess.setEnabled(false);
 			UploadFrame.btnClear.setEnabled(false);
 		}
-		
+
 	}
 
 
@@ -112,8 +115,8 @@ public class AuxFunctions {
 
 	public void saveFile(String text) throws Exception {
 		//TODO Save File in machine
-		
-		
+
+
 		//save File info in DB.
 		//getName of file
 		String [] names = text.split("/");
@@ -127,7 +130,14 @@ public class AuxFunctions {
 		newFile.setPath(text);
 		FileDAO fileDAO = new FileDAO();
 		fileDAO.insert(newFile);
-		
-		
+	}
+
+	public void getProducts() throws Exception {
+		ProductDAO productDAO = new ProductDAO();
+		HashSet<String> products = productDAO.getProducts();
+
+		for ( String s : products) {
+			UploadFrame.choiceProduct.add(s);
+		}
 	}
 }
