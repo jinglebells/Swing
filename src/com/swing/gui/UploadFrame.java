@@ -1,9 +1,9 @@
 package com.swing.gui;
 
-import java.awt.BorderLayout;
+import java.awt.Choice;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -12,12 +12,10 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,19 +24,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.JTableHeader;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import java.awt.Color;
-import java.awt.Choice;
-import java.awt.Label;
 
 public class UploadFrame extends JFrame {
 
@@ -52,9 +43,16 @@ public class UploadFrame extends JFrame {
 	static JButton btnProcess;
 	static JButton btnUpload;
 	static JButton btnClear;
+	JButton btnMeasure;
 	JPanel imgPanel;
-	
+
 	static Choice choiceProduct;
+	private Choice choiceGender;
+	private JLabel lblHeight;
+	private JTextField txtHeighttext;
+
+	JLabel lblGender;
+	JLabel askUser;
 
 	private char CSV_SEPARATOR = ',';
 	private char CSV_QUOTE = '\"';
@@ -62,8 +60,7 @@ public class UploadFrame extends JFrame {
 	String process;
 
 	AuxFunctions aux = new AuxFunctions();
-	private Choice choiceGender;
-
+	
 
 	/**
 	 * Launch the application.
@@ -93,7 +90,7 @@ public class UploadFrame extends JFrame {
 		setContentPane(contentUpload);
 		contentUpload.setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 702, 512);
+		setBounds(100, 100, 702, 582);
 		ImageIcon webIcon = new ImageIcon("resources\\mtrust.png");
 		setIconImage(webIcon.getImage());
 
@@ -131,11 +128,11 @@ public class UploadFrame extends JFrame {
 		imgPanel.setBackground(Color.WHITE);
 		imgPanel.setBounds(104, 74, 423, 306);
 		contentUpload.add(imgPanel);
-		
-		JLabel askUser = new JLabel("What do you want to Measure?");
+
+		askUser = new JLabel("What do you want to Measure?");
 		askUser.setBounds(31, 412, 271, 15);
 		contentUpload.add(askUser);
-		
+
 		choiceProduct = new Choice();
 		choiceProduct.setBounds(336, 406, 133, 21);
 		try {
@@ -145,16 +142,29 @@ public class UploadFrame extends JFrame {
 			e2.printStackTrace();
 		}
 		contentUpload.add(choiceProduct);
-		
-		JLabel lblGender = new JLabel("Gender?");
+
+		lblGender = new JLabel("Gender?");
 		lblGender.setBounds(31, 439, 70, 15);
 		contentUpload.add(lblGender);
-		
+
 		choiceGender = new Choice();
 		choiceGender.setBounds(104, 433, 122, 21);
 		choiceGender.add("Male");
 		choiceGender.add("Female");
 		contentUpload.add(choiceGender);
+		
+		btnMeasure = new JButton("Meausure");
+		btnMeasure.setBounds(546, 468, 117, 25);
+		contentUpload.add(btnMeasure);
+		
+		lblHeight = new JLabel("Height? (cm)");
+		lblHeight.setBounds(31, 473, 104, 15);
+		contentUpload.add(lblHeight);
+		
+		txtHeighttext = new JTextField();
+		txtHeighttext.setBounds(153, 471, 114, 19);
+		contentUpload.add(txtHeighttext);
+		txtHeighttext.setColumns(10);
 
 
 		//MenuBar
@@ -207,12 +217,12 @@ public class UploadFrame extends JFrame {
 				//Save file in a new path
 				try {
 					aux.saveFile(pathField.getText());
-                    BufferedImage image = ImageIO.read(new File(pathField.getText()));
-                    BufferedImage newImg = resizeImage(image, imgPanel.getWidth(), imgPanel.getHeight(), 1);
-                    ImageIcon icon = new ImageIcon(newImg);
-                    JLabel label = new JLabel();
-                    imgPanel.add(label);
-                    label.setIcon(icon);
+					BufferedImage image = ImageIO.read(new File(pathField.getText()));
+					BufferedImage newImg = resizeImage(image, imgPanel.getWidth(), imgPanel.getHeight(), 1);
+					ImageIcon icon = new ImageIcon(newImg);
+					JLabel label = new JLabel();
+					imgPanel.add(label);
+					label.setIcon(icon);
 					process = "process";
 					aux.enableButtons(process);
 				} catch (Exception e1) {
@@ -235,10 +245,10 @@ public class UploadFrame extends JFrame {
 		});
 	}
 	private BufferedImage resizeImage(BufferedImage originalImage, int width, int height, int type) throws IOException {  
-        BufferedImage resizedImage = new BufferedImage(width, height, type);  
-        Graphics2D g = resizedImage.createGraphics();  
-        g.drawImage(originalImage, 0, 0, width, height, null);  
-        g.dispose();  
-        return resizedImage;  
-    }  
+		BufferedImage resizedImage = new BufferedImage(width, height, type);  
+		Graphics2D g = resizedImage.createGraphics();  
+		g.drawImage(originalImage, 0, 0, width, height, null);  
+		g.dispose();  
+		return resizedImage;  
+	}  
 }
