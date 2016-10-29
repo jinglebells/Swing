@@ -40,6 +40,12 @@ public class AuxFunctions {
 
 	DatabaseConnection dbConnection = new DatabaseConnection();
 	DatabaseFunctions dbFunction = new DatabaseFunctions();
+	
+	String[] information = null;
+	String gender = null;
+	String product = null;
+	String height = null;
+	String waist= null, hip= null, insideleg= null, bust= null, chest= null;
 
 	Connection dbConnector;
 
@@ -184,12 +190,35 @@ public class AuxFunctions {
 			response.append(inputLine);
 		}
 		in.close();
-		algorithm(response);
+		algorithm(response.toString());
 
 	}
 
-	private void algorithm(StringBuffer response) {
+	private void algorithm(String response) {
+		information = response.split("_");
+		gender = information[0];
+		product = information[1];
+		height = information[2];
 		
+		if (gender.equalsIgnoreCase("male") && product.equalsIgnoreCase("pants")) {
+			waist = information[3];
+			insideleg = information[4];
+		}
+		else if (gender.equalsIgnoreCase("male") && product.equalsIgnoreCase("knits")) {
+			chest = information[3];
+		}
+		else if (gender.equalsIgnoreCase("female") && product.equalsIgnoreCase("pants")) {
+			waist = information[3];
+			hip = information[4];
+		}
+		else if (gender.equalsIgnoreCase("female") && product.equalsIgnoreCase("knits")) {
+			bust=information[3];
+		}
+		else if (gender.equalsIgnoreCase("female") && product.equalsIgnoreCase("dress")) {
+			waist = information[3];
+			bust = information[4];
+			hip = information[5];
+		}
 		
 	}
 }

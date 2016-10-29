@@ -5,18 +5,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 public class Product {
-	
+
 	public Product() {
 
 	};
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String product;
 	private String gender;
 	private String size;
-	private String waist, hip, insideleg, bust, neck, arm;
+	private String waist, hip, insideleg, bust, chest;
 	public Integer getId() {
 		return id;
 	}
@@ -65,19 +65,10 @@ public class Product {
 	public void setBust(String bust) {
 		this.bust = bust;
 	}
-	public String getNeck() {
-		return neck;
+	public String getChest() {
+		return chest;
 	}
-	public void setNeck(String neck) {
-		this.neck = neck;
+	public void setChest(String chest) {
+		this.chest = chest;
 	}
-	public String getArm() {
-		return arm;
-	}
-	public void setArm(String arm) {
-		this.arm = arm;
-	}
-
-	
-	
 }
