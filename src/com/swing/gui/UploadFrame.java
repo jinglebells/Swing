@@ -47,12 +47,15 @@ public class UploadFrame extends JFrame {
 	JPanel imgPanel;
 
 	static Choice choiceProduct;
-	private Choice choiceGender;
+	static Choice choiceGender;
 	private JLabel lblHeight;
 	private JTextField txtHeighttext;
 
 	JLabel lblGender;
 	JLabel askUser;
+	
+	BufferedImage newImg;
+	BufferedImage image;
 
 	private char CSV_SEPARATOR = ',';
 	private char CSV_QUOTE = '\"';
@@ -217,8 +220,8 @@ public class UploadFrame extends JFrame {
 				//Save file in a new path
 				try {
 					aux.saveFile(pathField.getText());
-					BufferedImage image = ImageIO.read(new File(pathField.getText()));
-					BufferedImage newImg = resizeImage(image, imgPanel.getWidth(), imgPanel.getHeight(), 1);
+					image = ImageIO.read(new File(pathField.getText()));
+					newImg = resizeImage(image, imgPanel.getWidth(), imgPanel.getHeight(), 1);
 					ImageIcon icon = new ImageIcon(newImg);
 					JLabel label = new JLabel();
 					imgPanel.add(label);
@@ -248,7 +251,7 @@ public class UploadFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				log.debug("Button Measure pressed.");
 				try {
-					aux.sendPostRequest(choiceGender.getSelectedItem(), choiceProduct.getSelectedItem(),txtHeighttext.getText());
+					aux.sendPostRequest(choiceGender.getSelectedItem(), choiceProduct.getSelectedItem(),txtHeighttext.getText(), image);
 				} catch (Exception e1) {
 					log.fatal("Exception when trying to send POST Request");
 					JOptionPane.showMessageDialog(null,"Error sending the request. Please try again.");

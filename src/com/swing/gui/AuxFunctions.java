@@ -1,13 +1,14 @@
 package com.swing.gui;
 
 import java.awt.HeadlessException;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -17,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 import org.apache.logging.log4j.LogManager;
@@ -136,18 +138,35 @@ public class AuxFunctions {
 		HashSet<String> products = productDAO.getProducts();
 
 		for ( String s : products) {
-			UploadFrame.choiceProduct.add(s);
+			if (UploadFrame.choiceGender.getSelectedItem().equalsIgnoreCase("Male")) {
+				continue;
+			}
+			else {
+				UploadFrame.choiceProduct.add(s);
+			}
+			
 		}
 	}
 
-	public void sendPostRequest(String gender, String product, String height) throws Exception {
+	public void sendPostRequest(String gender, String product, String height, BufferedImage image) throws Exception {
+		final String USER_AGENT = "Mozilla/5.0";
+		BufferedImage originalImage = image;
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write( originalImage, "jpg", baos );
+		baos.flush();
+		byte[] imageInByte = baos.toByteArray();
+		baos.close();
 		log.debug("Sending the message via POST.");
-		URL url = new URL("http://127.0.0.1:8080");
+		URL url = new URL("http://10.1.0.161:44444");
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("POST");
 		conn.setDoOutput(true);
+		conn.setRequestProperty("User-Agent", USER_AGENT);
+		conn.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+		conn.setRequestProperty("Connection", "Keep-Alive");
+		conn.setRequestProperty("Cache-Control", "no-cache");
 		OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
-		writer.write("gender="+gender+"&product="+product+"&height="+height);
+		writer.write("gender="+gender+"&product="+product+"&height="+height+"&image="+imageInByte);
 		writer.flush();
 		log.debug(conn.getOutputStream().toString());
 		writer.close();
@@ -156,6 +175,21 @@ public class AuxFunctions {
 		log.debug("Response Code : " + responseCode);
 		log.debug("Response Message : " + conn.getResponseMessage());
 		log.debug("Response method: " + conn.getRequestMethod());
+		BufferedReader in = new BufferedReader(
+		        new InputStreamReader(conn.getInputStream()));
+		String inputLine;
+		StringBuffer response = new StringBuffer();
 
+		while ((inputLine = in.readLine()) != null) {
+			response.append(inputLine);
+		}
+		in.close();
+		algorithm(response);
+
+	}
+
+	private void algorithm(StringBuffer response) {
+		
+		
 	}
 }
