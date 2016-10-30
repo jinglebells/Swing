@@ -11,7 +11,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import com.swing.entity.Product;
-import com.swing.entity.User;
 
 public class ProductDAO {
 	private SessionFactory factory;
@@ -20,7 +19,7 @@ public class ProductDAO {
 	public ProductDAO() {
 	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "rawtypes", "unchecked" })
 	public HashSet<String> getProducts() throws Exception{
 		Configuration cfg = new Configuration();
 		cfg.configure("hibernate.cfg.xml");
@@ -29,14 +28,17 @@ public class ProductDAO {
 		factory = cfg.buildSessionFactory();
 
 		Session session = factory.openSession();
+		@SuppressWarnings("rawtypes")
 		ArrayList products ;
 		products =(ArrayList) session.createSQLQuery("SELECT product FROM data.products").list();
+		@SuppressWarnings("unchecked")
 		HashSet results = new HashSet<String>(products);
 		session.flush();
 		session.close();
 		return results;
 	}
 
+	@SuppressWarnings("deprecation")
 	public String getSizeMalePants(String gender, String product, String waist,  String insideleg) {
 		Configuration cfg = new Configuration();
 		cfg.configure("hibernate.cfg.xml");
@@ -58,6 +60,7 @@ public class ProductDAO {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public String getSizeMaleKnits(String gender, String product, String chest) {
 		Configuration cfg = new Configuration();
 		cfg.configure("hibernate.cfg.xml");
@@ -75,10 +78,10 @@ public class ProductDAO {
 		else {
 			log.debug("We don't have information to get your size.");
 			return null;
-
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public String getSizeFemalePants(String gender, String product, String waist, String hip) {
 		Configuration cfg = new Configuration();
 		cfg.configure("hibernate.cfg.xml");
@@ -100,6 +103,7 @@ public class ProductDAO {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public String getSizeFemaleKnits(String gender, String product, String bust) {
 		Configuration cfg = new Configuration();
 		cfg.configure("hibernate.cfg.xml");
@@ -121,6 +125,7 @@ public class ProductDAO {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public String getSizeFemaleDress(String gender, String product, String height, String waist, String hip,
 			String bust) {
 		Configuration cfg = new Configuration();

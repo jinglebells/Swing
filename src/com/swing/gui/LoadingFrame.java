@@ -3,10 +3,10 @@ package com.swing.gui;
 import java.awt.Frame;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
-import javax.swing.JLabel;
 
 public class LoadingFrame extends JPanel {
 

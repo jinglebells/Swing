@@ -2,13 +2,11 @@ package com.swing.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import com.swing.entity.File;
-import com.swing.entity.User;
 
 public class FileDAO {
 	private SessionFactory factory;
