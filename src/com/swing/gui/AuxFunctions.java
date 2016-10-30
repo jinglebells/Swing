@@ -160,7 +160,7 @@ public class AuxFunctions {
 		byte[] imageInByte = baos.toByteArray();
 		baos.close();
 		log.debug("Sending the message via POST.");
-		URL url = new URL("http://10.1.0.161:8080");
+		URL url = new URL("http://127.0.0.1:8083");
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("POST");
 		conn.setDoOutput(true);
