@@ -4,6 +4,7 @@ import java.awt.Choice;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Frame;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -251,6 +252,10 @@ public class UploadFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				log.debug("Button Measure pressed.");
 				try {
+					log.debug("Button Register pressed.");
+					LoadingFrame loadingFrame = new LoadingFrame();
+					loadingFrame.setEnabled(true);
+					loadingFrame.setVisible(true);
 					aux.sendPostRequest(choiceGender.getSelectedItem(), choiceProduct.getSelectedItem(),txtHeighttext.getText(), image);
 				} catch (Exception e1) {
 					log.fatal("Exception when trying to send POST Request");

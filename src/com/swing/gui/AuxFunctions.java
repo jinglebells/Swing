@@ -1,5 +1,6 @@
 package com.swing.gui;
 
+import java.awt.Frame;
 import java.awt.HeadlessException;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -46,6 +47,7 @@ public class AuxFunctions {
 	String product = null;
 	String height = null;
 	String waist= null, hip= null, insideleg= null, bust= null, chest= null;
+	String size = null;
 
 	Connection dbConnector;
 
@@ -144,13 +146,7 @@ public class AuxFunctions {
 		HashSet<String> products = productDAO.getProducts();
 
 		for ( String s : products) {
-			if (UploadFrame.choiceGender.getSelectedItem().equalsIgnoreCase("Male")) {
-				continue;
-			}
-			else {
 				UploadFrame.choiceProduct.add(s);
-			}
-			
 		}
 	}
 
@@ -163,7 +159,7 @@ public class AuxFunctions {
 		byte[] imageInByte = baos.toByteArray();
 		baos.close();
 		log.debug("Sending the message via POST.");
-		URL url = new URL("http://10.1.0.161:44444");
+		URL url = new URL("http://10.1.0.161:8080");
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("POST");
 		conn.setDoOutput(true);
@@ -195,30 +191,60 @@ public class AuxFunctions {
 	}
 
 	private void algorithm(String response) {
+		log.debug("Processing response from server.");
 		information = response.split("_");
 		gender = information[0];
 		product = information[1];
 		height = information[2];
+		ProductDAO productDAO = new ProductDAO();
 		
 		if (gender.equalsIgnoreCase("male") && product.equalsIgnoreCase("pants")) {
 			waist = information[3];
 			insideleg = information[4];
+			size =productDAO.getSizeMalePants(gender, product,waist,insideleg);
+			showingResults(size);
 		}
 		else if (gender.equalsIgnoreCase("male") && product.equalsIgnoreCase("knits")) {
 			chest = information[3];
+//			size =productDAO.getSize(gender, product, height, waist, hip, insideleg, bust, chest);
+			showingResults(size);
 		}
 		else if (gender.equalsIgnoreCase("female") && product.equalsIgnoreCase("pants")) {
 			waist = information[3];
 			hip = information[4];
+//			size =productDAO.getSize(gender, product, height, waist, hip, insideleg, bust, chest);
+			showingResults(size);
 		}
 		else if (gender.equalsIgnoreCase("female") && product.equalsIgnoreCase("knits")) {
 			bust=information[3];
+//			size =productDAO.getSize(gender, product, height, waist, hip, insideleg, bust, chest);
+			showingResults(size);
 		}
 		else if (gender.equalsIgnoreCase("female") && product.equalsIgnoreCase("dress")) {
 			waist = information[3];
 			bust = information[4];
 			hip = information[5];
+//			size =productDAO.getSize(gender, product, height, waist, hip, insideleg, bust, chest);
+			showingResults(size);
+			
+			
 		}
 		
+	}
+	public static void closeFrame(Frame[] frames) {
+		log.debug("Closing frames.");
+		for (Frame frame : frames) {
+			if (frame.getName().equalsIgnoreCase("frame0")) {
+				frame.dispose();
+			}
+		}
+	}
+	
+	public void showingResults(String size) {
+		ResultFrame resultFrame = new ResultFrame();
+		resultFrame.setEnabled(true);
+		resultFrame.setVisible(true);
+		ResultFrame.lblSize.setText(size);
+//		closeFrame(LoadingFrame.getFrames());
 	}
 }
