@@ -206,25 +206,25 @@ public class AuxFunctions {
 		}
 		else if (gender.equalsIgnoreCase("male") && product.equalsIgnoreCase("knits")) {
 			chest = information[3];
-//			size =productDAO.getSize(gender, product, height, waist, hip, insideleg, bust, chest);
+			size =productDAO.getSizeMaleKnits(gender, product, chest);
 			showingResults(size);
 		}
 		else if (gender.equalsIgnoreCase("female") && product.equalsIgnoreCase("pants")) {
 			waist = information[3];
 			hip = information[4];
-//			size =productDAO.getSize(gender, product, height, waist, hip, insideleg, bust, chest);
+			size =productDAO.getSizeFemalePants(gender, product, waist, hip);
 			showingResults(size);
 		}
 		else if (gender.equalsIgnoreCase("female") && product.equalsIgnoreCase("knits")) {
 			bust=information[3];
-//			size =productDAO.getSize(gender, product, height, waist, hip, insideleg, bust, chest);
+			size =productDAO.getSizeFemaleKnits(gender, product,bust);
 			showingResults(size);
 		}
 		else if (gender.equalsIgnoreCase("female") && product.equalsIgnoreCase("dress")) {
 			waist = information[3];
 			bust = information[4];
 			hip = information[5];
-//			size =productDAO.getSize(gender, product, height, waist, hip, insideleg, bust, chest);
+			size =productDAO.getSizeFemaleDress(gender, product, height, waist, hip,bust);
 			showingResults(size);
 			
 			

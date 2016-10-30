@@ -57,4 +57,89 @@ public class ProductDAO {
 
 		}
 	}
+
+	public String getSizeMaleKnits(String gender, String product, String chest) {
+		Configuration cfg = new Configuration();
+		cfg.configure("hibernate.cfg.xml");
+		cfg.addClass(Product.class);
+		log.debug("configuration created");
+		factory = cfg.buildSessionFactory();
+		Session session = factory.openSession();
+		Query query=session.createQuery("Select size from Product where gender='" + gender
+				+"' and product='" + product + "' and chest='" + chest +"'");
+
+		if (!query.list().isEmpty()) {
+			log.debug("Size Selected");
+			return query.list().get(0).toString();
+		}
+		else {
+			log.debug("We don't have information to get your size.");
+			return null;
+
+		}
+	}
+
+	public String getSizeFemalePants(String gender, String product, String waist, String hip) {
+		Configuration cfg = new Configuration();
+		cfg.configure("hibernate.cfg.xml");
+		cfg.addClass(Product.class);
+		log.debug("configuration created");
+		factory = cfg.buildSessionFactory();
+		Session session = factory.openSession();
+		Query query=session.createQuery("Select size from Product where gender='" + gender
+				+"' and product='" + product + "' and waist='" + waist +"' and hip='" + hip + "'");
+
+		if (!query.list().isEmpty()) {
+			log.debug("Size Selected");
+			return query.list().get(0).toString();
+		}
+		else {
+			log.debug("We don't have information to get your size.");
+			return null;
+
+		}
+	}
+
+	public String getSizeFemaleKnits(String gender, String product, String bust) {
+		Configuration cfg = new Configuration();
+		cfg.configure("hibernate.cfg.xml");
+		cfg.addClass(Product.class);
+		log.debug("configuration created");
+		factory = cfg.buildSessionFactory();
+		Session session = factory.openSession();
+		Query query=session.createQuery("Select size from Product where gender='" + gender
+				+"' and product='" + product + "' and bust='" + bust +"'");
+
+		if (!query.list().isEmpty()) {
+			log.debug("Size Selected");
+			return query.list().get(0).toString();
+		}
+		else {
+			log.debug("We don't have information to get your size.");
+			return null;
+
+		}
+	}
+
+	public String getSizeFemaleDress(String gender, String product, String height, String waist, String hip,
+			String bust) {
+		Configuration cfg = new Configuration();
+		cfg.configure("hibernate.cfg.xml");
+		cfg.addClass(Product.class);
+		log.debug("configuration created");
+		factory = cfg.buildSessionFactory();
+		Session session = factory.openSession();
+		Query query=session.createQuery("Select size from Product where gender='" + gender
+				+"' and product='" + product + "' and waist='" + waist +" and bust='" + bust + "' and hip='" + hip +"'");
+
+		if (!query.list().isEmpty()) {
+			log.debug("Size Selected");
+			return query.list().get(0).toString();
+		}
+		else {
+			log.debug("We don't have information to get your size.");
+			return null;
+
+		}
+	}
 }
