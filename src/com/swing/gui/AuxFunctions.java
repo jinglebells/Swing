@@ -46,8 +46,9 @@ public class AuxFunctions {
 	String gender = null;
 	String product = null;
 	String height = null;
-	String waist= null, hip= null, insideleg= null, bust= null, chest= null;
+	String waist= null, hip= null, insideleg= null, bust= null, chest= null, legheight=null;
 	String size = null;
+	Integer adjust=null;
 
 	Connection dbConnector;
 
@@ -201,8 +202,13 @@ public class AuxFunctions {
 		if (gender.equalsIgnoreCase("male") && product.equalsIgnoreCase("pants")) {
 			waist = information[3];
 			insideleg = information[4];
+			legheight = information[5];
 			size =productDAO.getSizeMalePants(gender, product,waist,insideleg);
-			showingResults(size);
+			if (Integer.parseInt(legheight) < Integer.parseInt(insideleg)) {
+				adjust = Integer.parseInt(insideleg)-Integer.parseInt(legheight);
+			}
+			
+			showingResultsPants(size, adjust);
 		}
 		else if (gender.equalsIgnoreCase("male") && product.equalsIgnoreCase("knits")) {
 			chest = information[3];
@@ -226,11 +232,11 @@ public class AuxFunctions {
 			hip = information[5];
 			size =productDAO.getSizeFemaleDress(gender, product, height, waist, hip,bust);
 			showingResults(size);
-			
-			
 		}
 		
 	}
+	
+
 	public static void closeFrame(Frame[] frames) {
 		log.debug("Closing frames.");
 		for (Frame frame : frames) {
@@ -246,5 +252,15 @@ public class AuxFunctions {
 		resultFrame.setVisible(true);
 		ResultFrame.lblSize.setText(size);
 //		closeFrame(LoadingFrame.getFrames());
+	}
+	
+	private void showingResultsPants(String size, Integer adjust) {
+		ResultFrame resultFrame = new ResultFrame();
+		resultFrame.setEnabled(true);
+		resultFrame.setVisible(true);
+		ResultFrame.lblSize.setText(size);
+		ResultFrame.txtpnAddinfo.setText("You should reduce " + adjust + "cm to your pants." );
+//		closeFrame(LoadingFrame.getFrames());
+		
 	}
 }
